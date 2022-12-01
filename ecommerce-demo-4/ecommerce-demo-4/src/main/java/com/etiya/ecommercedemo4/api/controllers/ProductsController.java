@@ -14,9 +14,10 @@ import java.util.List;
 @RequestMapping("/api/products")
 public class ProductsController {
 
-    @Autowired
+
     private IProductService IProductService;
 
+    @Autowired
     public ProductsController(IProductService IProductService) {
         this.IProductService = IProductService;
     }

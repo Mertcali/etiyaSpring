@@ -2,6 +2,7 @@ package com.etiya.ecommercedemo4.api.controllers;
 
 import com.etiya.ecommercedemo4.business.abstracts.ICustomerService;
 import com.etiya.ecommercedemo4.entities.concretes.Customer;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,6 +16,7 @@ public class CustomersController {
 
     private ICustomerService customerService;
 
+    @Autowired
     public CustomersController(ICustomerService customerService) {
         this.customerService = customerService;
     }
