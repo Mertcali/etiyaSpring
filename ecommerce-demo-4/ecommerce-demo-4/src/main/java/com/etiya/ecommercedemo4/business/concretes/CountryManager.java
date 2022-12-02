@@ -26,5 +26,15 @@ public class CountryManager implements ICountryService {
         return this.countryRepository.findById(id).orElseThrow();
     }
 
+    @Override
+    public Country getByName(String name) {
+        return this.countryRepository.findByName(name);
+    }
+
+    @Override
+    public List<Country> getAllCountriesOrdered() {
+        return this.countryRepository.findAllCountriesOrderByName();
+    }
+
 
 }

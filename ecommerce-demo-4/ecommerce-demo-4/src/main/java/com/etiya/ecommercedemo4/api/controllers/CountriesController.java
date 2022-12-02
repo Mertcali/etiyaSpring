@@ -30,4 +30,14 @@ public class CountriesController {
     public Country getById(@PathVariable int id){
         return this.countryService.getById(id);
     }
+
+    @GetMapping("/getAllOrderedByName")
+    public List<Country> getAllOrderedByName(){
+        return this.countryService.getAllCountriesOrdered();
+    }
+
+    @GetMapping("/getByName")
+    public Country getByName(String name){
+        return this.countryService.getByName(name);
+    }
 }

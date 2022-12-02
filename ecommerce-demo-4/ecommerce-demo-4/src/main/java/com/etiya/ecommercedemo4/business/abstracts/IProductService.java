@@ -7,5 +7,9 @@ import java.util.List;
 public interface IProductService {
     List<Product> getAll();
     Product getById(int id);
+    List<Product> getAllByStock(int stock);
+    Product getByName(String name);
+
+    List<Product> getAllProductsUnitPriceBetween(double start,double end);
 
 }

@@ -5,6 +5,7 @@ import com.etiya.ecommercedemo4.entities.concretes.Customer;
 import com.etiya.ecommercedemo4.repository.ICustomerRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -25,4 +26,22 @@ public class CustomerManager implements ICustomerService {
     public Customer getById(int id) {
         return this.customerRepository.findById(id).orElseThrow();
     }
+
+    @Override
+    public List<Customer> getAllCustomersWithBirthDate(Date start, Date end) {
+        return this.customerRepository.findAllCustomersWithBirthDate(start,end);
+    }
+
+    @Override
+    public List<Customer> getAllCustomersLike(String customerNumber) {
+        return this.customerRepository.findAllCustomersLike(customerNumber);
+    }
+
+    @Override
+    public Customer getByCustomerNumber(String customerNumber) {
+        return this.customerRepository.findByCustomerNumber(customerNumber);
+    }
+
+
+
 }

@@ -7,5 +7,7 @@ import java.util.List;
 public interface ICountryService {
     List<Country> getAll();
     Country getById(int id);
+    Country getByName(String name);
+    List<Country> getAllCountriesOrdered();
 
 }

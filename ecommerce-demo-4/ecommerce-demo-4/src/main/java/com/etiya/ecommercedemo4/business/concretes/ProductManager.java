@@ -11,20 +11,35 @@ import java.util.List;
 @Service
 public class ProductManager implements IProductService {
 
-    private IProductRepository IProductRepository;
+    private IProductRepository productRepository;
 
     @Autowired
     public ProductManager(IProductRepository IProductRepository) {
-        this.IProductRepository = IProductRepository;
+        this.productRepository = IProductRepository;
     }
 
     @Override
     public List<Product> getAll() {
-        return IProductRepository.findAll();
+        return productRepository.findAll();
     }
 
     @Override
     public Product getById(int id) {
-        return IProductRepository.findById(id).orElseThrow();
+        return productRepository.findById(id).orElseThrow();
+    }
+
+    @Override
+    public List<Product> getAllByStock(int stock) {
+        return this.productRepository.findAllProductsByStockGreaterThanOrderByStockDesc(stock);
+    }
+
+    @Override
+    public Product getByName(String name) {
+        return this.productRepository.findByName(name);
+    }
+
+    @Override
+    public List<Product> getAllProductsUnitPriceBetween(double start, double end) {
+        return this.productRepository.findAllProductsUnitPriceBetween(start,end);
     }
 }
