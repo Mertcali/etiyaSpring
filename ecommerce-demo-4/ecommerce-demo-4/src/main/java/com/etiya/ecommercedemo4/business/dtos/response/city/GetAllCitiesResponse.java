@@ -1,22 +1,17 @@
-package com.etiya.ecommercedemo4.business.dtos.response.product;
-
+package com.etiya.ecommercedemo4.business.dtos.response.city;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.Date;
-
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-public class AddProductResponse {
+public class GetAllCitiesResponse {
 
     private int id;
     private String name;
-    private double unitPrice;
-    private Date productionDate;
-    private int stock;
+    private String countryName;
 }

@@ -3,6 +3,7 @@ package com.etiya.ecommercedemo4.api.controllers;
 import com.etiya.ecommercedemo4.business.abstracts.ICityService;
 import com.etiya.ecommercedemo4.business.dtos.request.city.AddCityRequest;
 import com.etiya.ecommercedemo4.business.dtos.response.city.AddCityResponse;
+import com.etiya.ecommercedemo4.business.dtos.response.city.GetAllCitiesResponse;
 import com.etiya.ecommercedemo4.entities.concretes.City;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -34,5 +35,10 @@ public class CitiesController {
     @PostMapping("/add")
     public ResponseEntity<AddCityResponse> add(AddCityRequest addCityRequest){
         return new ResponseEntity<AddCityResponse>(this.cityService.add(addCityRequest), HttpStatus.CREATED);
+    }
+
+    @GetMapping("/getAllCitiesResponsePattern")
+    public List<GetAllCitiesResponse> getAllCitiesResponseResponseEntity(){
+        return this.cityService.getAllResponsePattern();
     }
 }

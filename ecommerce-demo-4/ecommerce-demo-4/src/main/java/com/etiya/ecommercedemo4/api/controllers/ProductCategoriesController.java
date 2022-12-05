@@ -30,4 +30,5 @@ public class ProductCategoriesController {
     public ProductCategories getById(@PathVariable int id){
         return this.productCategoriesService.getById(id);
     }
+
 }
