@@ -30,4 +30,9 @@ public class AddressesController {
     public Address getById(@PathVariable int id){
         return this.addressService.getById(id);
     }
+
+    @GetMapping("/getByAdressType")
+    public List<Address> getByAddressType(){
+        return this.addressService.getByAddressType();
+    }
 }

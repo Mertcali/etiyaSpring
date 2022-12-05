@@ -1,12 +1,13 @@
 package com.etiya.ecommercedemo4.api.controllers;
 
 import com.etiya.ecommercedemo4.business.abstracts.ICountryService;
+import com.etiya.ecommercedemo4.business.dtos.request.country.AddCountryRequest;
+import com.etiya.ecommercedemo4.business.dtos.response.country.AddCountryResponse;
 import com.etiya.ecommercedemo4.entities.concretes.Country;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -39,5 +40,10 @@ public class CountriesController {
     @GetMapping("/getByName")
     public Country getByName(String name){
         return this.countryService.getByName(name);
+    }
+
+    @PostMapping("/add")
+    public ResponseEntity<AddCountryResponse> add(AddCountryRequest addCountryRequest){
+        return new ResponseEntity<AddCountryResponse>(this.countryService.add(addCountryRequest), HttpStatus.CREATED);
     }
 }

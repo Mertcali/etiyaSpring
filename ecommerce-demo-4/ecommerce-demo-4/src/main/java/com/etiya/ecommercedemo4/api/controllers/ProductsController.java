@@ -1,8 +1,12 @@
 package com.etiya.ecommercedemo4.api.controllers;
 
 import com.etiya.ecommercedemo4.business.abstracts.IProductService;
+import com.etiya.ecommercedemo4.business.dtos.request.product.AddProductRequest;
+import com.etiya.ecommercedemo4.business.dtos.response.product.AddProductResponse;
 import com.etiya.ecommercedemo4.entities.concretes.Product;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -40,6 +44,11 @@ public class ProductsController {
     @GetMapping("/getAllProductsBetween")
     public List<Product> getAllProductsBetween(double start,double end){
         return this.productService.getAllProductsUnitPriceBetween(start, end);
+    }
+
+    @PostMapping("/add")
+    public ResponseEntity<AddProductResponse> add(@RequestBody AddProductRequest addProductRequest){
+        return  new ResponseEntity<>(this.productService.add(addProductRequest), HttpStatus.CREATED);
     }
 
 }

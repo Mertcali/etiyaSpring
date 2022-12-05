@@ -1,6 +1,8 @@
 package com.etiya.ecommercedemo4.business.concretes;
 
 import com.etiya.ecommercedemo4.business.abstracts.ICountryService;
+import com.etiya.ecommercedemo4.business.dtos.request.country.AddCountryRequest;
+import com.etiya.ecommercedemo4.business.dtos.response.country.AddCountryResponse;
 import com.etiya.ecommercedemo4.entities.concretes.Country;
 import com.etiya.ecommercedemo4.repository.ICountryRepository;
 import org.springframework.stereotype.Service;
@@ -36,5 +38,16 @@ public class CountryManager implements ICountryService {
         return this.countryRepository.findAllCountriesOrderByName();
     }
 
+    @Override
+    public AddCountryResponse add(AddCountryRequest addCountryRequest) {
 
+        Country country = new Country();
+        country.setName(addCountryRequest.getName());
+
+        Country savedCountry = this.countryRepository.save(country);
+
+        AddCountryResponse response = new AddCountryResponse(savedCountry.getId(), savedCountry.getName());
+
+        return response;
+    }
 }

@@ -1,7 +1,10 @@
 package com.etiya.ecommercedemo4.business.concretes;
 
 import com.etiya.ecommercedemo4.business.abstracts.IAddressService;
+import com.etiya.ecommercedemo4.business.dtos.request.addressType.AddAddressTypeRequest;
+import com.etiya.ecommercedemo4.business.dtos.response.address.AddAddressTypeResponse;
 import com.etiya.ecommercedemo4.entities.concretes.Address;
+import com.etiya.ecommercedemo4.entities.concretes.AddressType;
 import com.etiya.ecommercedemo4.repository.IAddressRepository;
 import org.springframework.stereotype.Service;
 
@@ -25,4 +28,11 @@ public class AddressManager implements IAddressService {
     public Address getById(int id) {
         return this.addressRepository.findById(id).orElseThrow();
     }
+
+    @Override
+    public List<Address> getByAddressType() {
+        return this.addressRepository.findByAddressType();
+    }
+
+
 }
