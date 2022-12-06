@@ -75,11 +75,15 @@ public class ProductManager implements IProductService {
 
         //********PRODUCT_CATEGORIES_SET***********
 
-        AddProductCategoriesRequest addProductCategoriesRequest = new AddProductCategoriesRequest();
+      /*  AddProductCategoriesRequest addProductCategoriesRequest = new AddProductCategoriesRequest();
         addProductCategoriesRequest.setProductId(response.getId());
         addProductCategoriesRequest.setCategoryId(category.getId());
 
+
+
         this.productCategoriesService.add(addProductCategoriesRequest);
+
+       */
 
         return response;
     }
