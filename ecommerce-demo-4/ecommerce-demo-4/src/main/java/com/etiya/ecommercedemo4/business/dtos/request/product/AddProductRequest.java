@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.validation.constraints.*;
 import java.util.Date;
 
 @AllArgsConstructor
@@ -11,9 +12,20 @@ import java.util.Date;
 @Setter
 public class AddProductRequest {
 
+    @NotNull(message = "NOT NULL")
+    @NotBlank(message = "NOT BLANK")
+    @Size(min = 3,max = 50,message = "SIZE")
     private String name;
+
+    @Positive(message = "MUST BE POSITIVE")
     private double unitPrice;
+
     private Date productionDate;
+
+    @PositiveOrZero(message = "MUST BE POSITIVE OR ZERO")
     private int stock;
+
+    @Positive(message = "MUST BE POSITIVE")
+    private int categoryId;
 
 }

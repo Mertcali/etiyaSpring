@@ -5,6 +5,7 @@ import com.etiya.ecommercedemo4.business.dtos.request.city.AddCityRequest;
 import com.etiya.ecommercedemo4.business.dtos.response.city.AddCityResponse;
 import com.etiya.ecommercedemo4.business.dtos.response.city.GetAllCitiesResponse;
 import com.etiya.ecommercedemo4.entities.concretes.City;
+import com.etiya.ecommercedemo4.entities.concretes.Country;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -41,4 +42,6 @@ public class CitiesController {
     public List<GetAllCitiesResponse> getAllCitiesResponseResponseEntity(){
         return this.cityService.getAllResponsePattern();
     }
+
+
 }

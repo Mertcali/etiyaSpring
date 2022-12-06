@@ -5,6 +5,7 @@ import com.etiya.ecommercedemo4.business.dtos.request.city.AddCityRequest;
 import com.etiya.ecommercedemo4.business.dtos.response.city.AddCityResponse;
 import com.etiya.ecommercedemo4.business.dtos.response.city.GetAllCitiesResponse;
 import com.etiya.ecommercedemo4.entities.concretes.City;
+import com.etiya.ecommercedemo4.entities.concretes.Country;
 import com.etiya.ecommercedemo4.repository.ICityRepository;
 import com.etiya.ecommercedemo4.repository.ICountryRepository;
 import org.springframework.stereotype.Service;
@@ -40,7 +41,6 @@ public class CityManager implements ICityService {
         city.setName(addCityRequest.getName());
         city.setCountry(this.countryRepository.findById(addCityRequest.getCountryId()).orElseThrow());
 
-
         City savedCity = this.cityRepository.save(city);
         AddCityResponse response = new AddCityResponse();
         response.setId(savedCity.getId());
@@ -65,4 +65,6 @@ public class CityManager implements ICityService {
 
         return responseList;
     }
+
+
 }

@@ -19,4 +19,5 @@ public class AddProductResponse {
     private double unitPrice;
     private Date productionDate;
     private int stock;
+    private String categoryName;
 }

@@ -1,13 +1,14 @@
 package com.etiya.ecommercedemo4.api.controllers;
 
 import com.etiya.ecommercedemo4.business.abstracts.IAddressService;
+import com.etiya.ecommercedemo4.business.dtos.request.address.AddAddressRequest;
+import com.etiya.ecommercedemo4.business.dtos.response.address.AddAddressResponse;
 import com.etiya.ecommercedemo4.entities.concretes.Address;
+import com.etiya.ecommercedemo4.entities.concretes.Country;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -35,4 +36,16 @@ public class AddressesController {
     public List<Address> getByAddressType(){
         return this.addressService.getByAddressType();
     }
+
+    @PostMapping("/add")
+    public AddAddressResponse add(@RequestBody @Valid AddAddressRequest addAddressRequest){
+        return this.addressService.add(addAddressRequest);
+    }
+
+ /*   @RequestMapping(value = "/id/{id}", method = RequestMethod.GET)
+    public Country getCountryWithCityId(@PathVariable int id){
+        return this.addressService.getCountryByCityId(id);
+    }
+
+  */
 }

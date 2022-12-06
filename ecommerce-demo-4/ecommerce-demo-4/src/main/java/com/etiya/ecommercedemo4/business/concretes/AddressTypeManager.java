@@ -2,7 +2,7 @@ package com.etiya.ecommercedemo4.business.concretes;
 
 import com.etiya.ecommercedemo4.business.abstracts.IAddressTypeService;
 import com.etiya.ecommercedemo4.business.dtos.request.addressType.AddAddressTypeRequest;
-import com.etiya.ecommercedemo4.business.dtos.response.address.AddAddressTypeResponse;
+import com.etiya.ecommercedemo4.business.dtos.response.addressType.AddAddressTypeResponse;
 import com.etiya.ecommercedemo4.entities.concretes.AddressType;
 import com.etiya.ecommercedemo4.repository.IAddressTypeRepository;
 import org.springframework.stereotype.Service;

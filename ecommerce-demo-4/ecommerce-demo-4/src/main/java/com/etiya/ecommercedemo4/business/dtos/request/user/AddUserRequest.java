@@ -1,4 +1,4 @@
-package com.etiya.ecommercedemo4.business.dtos.response.category;
+package com.etiya.ecommercedemo4.business.dtos.request.user;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,8 +9,9 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class GetAllCategoriesWithProductResponse {
-    private int id;
+public class AddUserRequest {
+
     private String name;
-    private String productName;
+    private String phoneNumber;
+    private String email;
 }

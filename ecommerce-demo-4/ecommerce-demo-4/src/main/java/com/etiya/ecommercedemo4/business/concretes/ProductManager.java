@@ -1,11 +1,16 @@
 package com.etiya.ecommercedemo4.business.concretes;
 
+import com.etiya.ecommercedemo4.business.abstracts.ICategoryService;
+import com.etiya.ecommercedemo4.business.abstracts.IProductCategoriesService;
 import com.etiya.ecommercedemo4.business.abstracts.IProductService;
 import com.etiya.ecommercedemo4.business.dtos.request.product.AddProductRequest;
+import com.etiya.ecommercedemo4.business.dtos.request.productCategories.AddProductCategoriesRequest;
 import com.etiya.ecommercedemo4.business.dtos.response.product.AddProductResponse;
+import com.etiya.ecommercedemo4.entities.concretes.Category;
 import com.etiya.ecommercedemo4.entities.concretes.Product;
 import com.etiya.ecommercedemo4.repository.IProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,10 +19,15 @@ import java.util.List;
 public class ProductManager implements IProductService {
 
     private IProductRepository productRepository;
+    private ICategoryService categoryService;
+    private IProductCategoriesService productCategoriesService;
 
     @Autowired
-    public ProductManager(IProductRepository IProductRepository) {
+    public ProductManager(IProductRepository IProductRepository,ICategoryService categoryService,
+                          @Lazy IProductCategoriesService productCategoriesService) {
         this.productRepository = IProductRepository;
+        this.categoryService =categoryService;
+        this.productCategoriesService=productCategoriesService;
     }
 
     @Override
@@ -48,6 +58,9 @@ public class ProductManager implements IProductService {
     @Override
     public AddProductResponse add(AddProductRequest addProductRequest) {
 
+        checkIfCategoryExists(addProductRequest.getCategoryId());
+        Category category = this.categoryService.getById(addProductRequest.getCategoryId());
+
         Product product = new Product();
         product.setName(addProductRequest.getName());
         product.setStock(addProductRequest.getStock());
@@ -58,9 +71,25 @@ public class ProductManager implements IProductService {
 
         AddProductResponse response = new AddProductResponse(savedProduct.getId(),
                 savedProduct.getName(),savedProduct.getUnitPrice(),
-                savedProduct.getProductionDate(),savedProduct.getStock());
+                savedProduct.getProductionDate(),savedProduct.getStock(), category.getName());
 
+        //********PRODUCT_CATEGORIES_SET***********
+
+        AddProductCategoriesRequest addProductCategoriesRequest = new AddProductCategoriesRequest();
+        addProductCategoriesRequest.setProductId(response.getId());
+        addProductCategoriesRequest.setCategoryId(category.getId());
+
+        this.productCategoriesService.add(addProductCategoriesRequest);
 
         return response;
     }
+
+    private void checkIfCategoryExists(int id){
+        Category category = this.categoryService.getById(id);
+        if(category==null){
+            throw new RuntimeException("CATEGORY_DOES_NOT_EXIST");
+        }
+    }
+
+
 }

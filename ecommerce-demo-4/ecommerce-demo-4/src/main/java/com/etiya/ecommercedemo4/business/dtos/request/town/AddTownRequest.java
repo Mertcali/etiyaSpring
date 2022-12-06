@@ -1,4 +1,4 @@
-package com.etiya.ecommercedemo4.business.dtos.response.category;
+package com.etiya.ecommercedemo4.business.dtos.request.town;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,8 +9,8 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class GetAllCategoriesWithProductResponse {
-    private int id;
+public class AddTownRequest {
+
     private String name;
-    private String productName;
+    private int cityId;
 }

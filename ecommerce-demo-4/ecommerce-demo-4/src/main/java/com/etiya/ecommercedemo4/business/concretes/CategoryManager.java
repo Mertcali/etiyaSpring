@@ -4,7 +4,6 @@ import com.etiya.ecommercedemo4.business.abstracts.ICategoryService;
 import com.etiya.ecommercedemo4.business.dtos.request.category.AddCategoryRequest;
 import com.etiya.ecommercedemo4.business.dtos.response.category.AddCategoryResponse;
 import com.etiya.ecommercedemo4.business.dtos.response.category.GetAllCategoriesWithProductResponse;
-import com.etiya.ecommercedemo4.business.dtos.response.product.GetProductResponse;
 import com.etiya.ecommercedemo4.entities.concretes.Category;
 import com.etiya.ecommercedemo4.repository.ICategoryRepository;
 import org.springframework.stereotype.Service;
@@ -33,6 +32,8 @@ public class CategoryManager implements ICategoryService {
 
     @Override
     public AddCategoryResponse add(AddCategoryRequest addCategoryRequest) {
+        checkIfCategoryNameExists(addCategoryRequest.getName());
+
         Category category = new Category();
         category.setName(addCategoryRequest.getName());
 
@@ -57,7 +58,6 @@ public class CategoryManager implements ICategoryService {
 
         }
 
-
         return null;
     }
 
@@ -69,5 +69,12 @@ public class CategoryManager implements ICategoryService {
     @Override
     public List<GetAllCategoriesWithProductResponse> denemeEndPoint2(int id) {
         return this.categoryRepository.denemeEndPoint2(id);
+    }
+
+    private void checkIfCategoryNameExists(String name){
+        boolean isExists = this.categoryRepository.existsCategoryByNameIgnoreCase(name);
+        if(isExists){
+            throw new RuntimeException("CATEGORY_EXISTS");
+        }
     }
 }
