@@ -1,9 +1,11 @@
 package com.etiya.ecommercedemo4.business.concretes;
 
 import com.etiya.ecommercedemo4.business.abstracts.ICityService;
+import com.etiya.ecommercedemo4.business.abstracts.ICountryService;
 import com.etiya.ecommercedemo4.business.dtos.request.city.AddCityRequest;
 import com.etiya.ecommercedemo4.business.dtos.response.city.AddCityResponse;
 import com.etiya.ecommercedemo4.business.dtos.response.city.GetAllCitiesResponse;
+import com.etiya.ecommercedemo4.core.util.mapping.ModelMapperService;
 import com.etiya.ecommercedemo4.entities.concretes.City;
 import com.etiya.ecommercedemo4.entities.concretes.Country;
 import com.etiya.ecommercedemo4.repository.ICityRepository;
@@ -17,11 +19,13 @@ import java.util.List;
 public class CityManager implements ICityService {
 
     private ICityRepository cityRepository;
-    private ICountryRepository countryRepository;
+    private ICountryService countryService;
 
-    public CityManager(ICityRepository cityRepository,ICountryRepository countryRepository) {
+    private ModelMapperService modelMapperService;
+    public CityManager(ICityRepository cityRepository,ICountryService countryService,ModelMapperService modelMapperService) {
         this.cityRepository = cityRepository;
-        this.countryRepository = countryRepository;
+        this.countryService = countryService;
+        this.modelMapperService = modelMapperService;
     }
 
     @Override
@@ -37,9 +41,12 @@ public class CityManager implements ICityService {
     @Override
     public AddCityResponse add(AddCityRequest addCityRequest) {
 
+        //********MANUEL_MAPPING////////
+
         City city = new City();
         city.setName(addCityRequest.getName());
-        city.setCountry(this.countryRepository.findById(addCityRequest.getCountryId()).orElseThrow());
+        city.setCountry(this.countryService.getById(addCityRequest.getCountryId()));
+
 
         City savedCity = this.cityRepository.save(city);
         AddCityResponse response = new AddCityResponse();

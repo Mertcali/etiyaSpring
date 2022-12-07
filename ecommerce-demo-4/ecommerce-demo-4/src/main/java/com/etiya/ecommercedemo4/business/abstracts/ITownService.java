@@ -12,4 +12,5 @@ public interface ITownService {
     List<Town> getAll();
 
     AddTownResponse add(AddTownRequest addTownRequest);
+    Town getById(int id);
 }

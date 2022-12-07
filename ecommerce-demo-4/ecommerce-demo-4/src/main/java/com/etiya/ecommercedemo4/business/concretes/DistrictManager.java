@@ -1,6 +1,7 @@
 package com.etiya.ecommercedemo4.business.concretes;
 
 import com.etiya.ecommercedemo4.business.abstracts.IDistrictService;
+import com.etiya.ecommercedemo4.business.abstracts.ITownService;
 import com.etiya.ecommercedemo4.business.dtos.request.district.AddDistrictRequest;
 import com.etiya.ecommercedemo4.business.dtos.response.district.AddDistrictResponse;
 import com.etiya.ecommercedemo4.entities.concretes.District;
@@ -14,11 +15,11 @@ import java.util.List;
 public class DistrictManager implements IDistrictService {
 
     private IDistrictRepository districtRepository;
-    private ITownRepository townRepository;
+    private ITownService townService;
 
-    public DistrictManager(IDistrictRepository districtRepository,ITownRepository townRepository) {
+    public DistrictManager(IDistrictRepository districtRepository,ITownService townService) {
         this.districtRepository = districtRepository;
-        this.townRepository = townRepository;
+        this.townService = townService;
     }
 
     @Override
@@ -36,7 +37,7 @@ public class DistrictManager implements IDistrictService {
 
         District district = new District();
         district.setName(addDistrictRequest.getName());
-        district.setTown(this.townRepository.findById(addDistrictRequest.getTownId()).orElseThrow());
+        district.setTown(this.townService.getById(addDistrictRequest.getTownId()));
 
         District savedDistrict = this.districtRepository.save(district);
 

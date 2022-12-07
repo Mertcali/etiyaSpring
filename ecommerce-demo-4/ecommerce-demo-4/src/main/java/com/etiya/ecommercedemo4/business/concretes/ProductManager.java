@@ -6,6 +6,7 @@ import com.etiya.ecommercedemo4.business.abstracts.IProductService;
 import com.etiya.ecommercedemo4.business.dtos.request.product.AddProductRequest;
 import com.etiya.ecommercedemo4.business.dtos.request.productCategories.AddProductCategoriesRequest;
 import com.etiya.ecommercedemo4.business.dtos.response.product.AddProductResponse;
+import com.etiya.ecommercedemo4.core.util.mapping.ModelMapperService;
 import com.etiya.ecommercedemo4.entities.concretes.Category;
 import com.etiya.ecommercedemo4.entities.concretes.Product;
 import com.etiya.ecommercedemo4.repository.IProductRepository;
@@ -21,13 +22,15 @@ public class ProductManager implements IProductService {
     private IProductRepository productRepository;
     private ICategoryService categoryService;
     private IProductCategoriesService productCategoriesService;
+    private ModelMapperService modelMapperService;
 
     @Autowired
     public ProductManager(IProductRepository IProductRepository,ICategoryService categoryService,
-                          @Lazy IProductCategoriesService productCategoriesService) {
+                          @Lazy IProductCategoriesService productCategoriesService,ModelMapperService modelMapperService) {
         this.productRepository = IProductRepository;
         this.categoryService =categoryService;
         this.productCategoriesService=productCategoriesService;
+        this.modelMapperService=modelMapperService;
     }
 
     @Override
@@ -61,28 +64,37 @@ public class ProductManager implements IProductService {
         checkIfCategoryExists(addProductRequest.getCategoryId());
         Category category = this.categoryService.getById(addProductRequest.getCategoryId());
 
+        //********MANUEL_MAPPING***********
+
+        /*
         Product product = new Product();
         product.setName(addProductRequest.getName());
         product.setStock(addProductRequest.getStock());
         product.setUnitPrice(addProductRequest.getUnitPrice());
         product.setProductionDate(addProductRequest.getProductionDate());
+         */
 
+        Product product = this.modelMapperService.forRequest().map(addProductRequest,Product.class);
         Product savedProduct = this.productRepository.save(product);
 
-        AddProductResponse response = new AddProductResponse(savedProduct.getId(),
+        //********MANUEL_MAPPING_RESPONSE***********
+
+        /*
+                AddProductResponse response = new AddProductResponse(savedProduct.getId(),
                 savedProduct.getName(),savedProduct.getUnitPrice(),
                 savedProduct.getProductionDate(),savedProduct.getStock(), category.getName());
+         */
 
-        //********PRODUCT_CATEGORIES_SET***********
+        AddProductResponse response = this.modelMapperService.forResponse().map(savedProduct,AddProductResponse.class);
 
-      /*  AddProductCategoriesRequest addProductCategoriesRequest = new AddProductCategoriesRequest();
+        //********PRODUCT_CATEGORIES_SET_PRENSIP_KARŞITI***********
+
+      /*
+        AddProductCategoriesRequest addProductCategoriesRequest = new AddProductCategoriesRequest();
         addProductCategoriesRequest.setProductId(response.getId());
         addProductCategoriesRequest.setCategoryId(category.getId());
 
-
-
         this.productCategoriesService.add(addProductCategoriesRequest);
-
        */
 
         return response;

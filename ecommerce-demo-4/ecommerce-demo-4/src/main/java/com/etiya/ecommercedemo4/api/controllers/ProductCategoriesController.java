@@ -1,12 +1,11 @@
 package com.etiya.ecommercedemo4.api.controllers;
 
 import com.etiya.ecommercedemo4.business.abstracts.IProductCategoriesService;
+import com.etiya.ecommercedemo4.business.dtos.request.productCategories.AddProductCategoriesRequest;
+import com.etiya.ecommercedemo4.business.dtos.response.productCategories.AddProductCategoriesResponse;
 import com.etiya.ecommercedemo4.entities.concretes.ProductCategories;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -29,6 +28,11 @@ public class ProductCategoriesController {
     @GetMapping("{id}")
     public ProductCategories getById(@PathVariable int id){
         return this.productCategoriesService.getById(id);
+    }
+
+    @PostMapping("/add")
+    public AddProductCategoriesResponse add(@RequestBody AddProductCategoriesRequest addProductCategoriesRequest){
+        return this.productCategoriesService.add(addProductCategoriesRequest);
     }
 
 }

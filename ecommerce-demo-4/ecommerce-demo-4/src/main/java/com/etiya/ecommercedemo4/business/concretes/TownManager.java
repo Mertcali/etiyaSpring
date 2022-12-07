@@ -1,5 +1,6 @@
 package com.etiya.ecommercedemo4.business.concretes;
 
+import com.etiya.ecommercedemo4.business.abstracts.ICityService;
 import com.etiya.ecommercedemo4.business.abstracts.ITownService;
 import com.etiya.ecommercedemo4.business.dtos.request.town.AddTownRequest;
 import com.etiya.ecommercedemo4.business.dtos.response.town.AddTownResponse;
@@ -14,11 +15,11 @@ import java.util.List;
 public class TownManager implements ITownService {
 
     private ITownRepository townRepository;
-    private ICityRepository cityRepository;
+    private ICityService cityService;
 
-    public TownManager(ITownRepository townRepository,ICityRepository cityRepository) {
+    public TownManager(ITownRepository townRepository,ICityService cityService) {
         this.townRepository = townRepository;
-        this.cityRepository = cityRepository;
+        this.cityService = cityService;
     }
 
     @Override
@@ -30,7 +31,7 @@ public class TownManager implements ITownService {
     public AddTownResponse add(AddTownRequest addTownRequest) {
 
         Town town = new Town();
-        town.setCity(this.cityRepository.findById(addTownRequest.getCityId()).orElseThrow());
+        town.setCity(this.cityService.getById((addTownRequest.getCityId())));
         town.setName(addTownRequest.getName());
 
         Town savedTown = this.townRepository.save(town);
@@ -41,5 +42,10 @@ public class TownManager implements ITownService {
         response.setCityName(savedTown.getCity().getName());
 
         return response;
+    }
+
+    @Override
+    public Town getById(int id) {
+        return this.townRepository.findById(id).orElseThrow();
     }
 }

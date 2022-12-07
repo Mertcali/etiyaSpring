@@ -1,5 +1,6 @@
 package com.etiya.ecommercedemo4.business.concretes;
 
+import com.etiya.ecommercedemo4.business.abstracts.IDistrictService;
 import com.etiya.ecommercedemo4.business.abstracts.IStreetService;
 import com.etiya.ecommercedemo4.business.dtos.request.street.AddStreetRequest;
 import com.etiya.ecommercedemo4.business.dtos.response.street.AddStreetResponse;
@@ -14,11 +15,11 @@ import java.util.List;
 public class StreetManager implements IStreetService {
 
     private IStreetRepository streetRepository;
-    private IDistrictRepository districtRepository;
+    private IDistrictService districtService;
 
-    public StreetManager(IStreetRepository streetRepository, IDistrictRepository districtRepository) {
+    public StreetManager(IStreetRepository streetRepository, IDistrictService districtService) {
         this.streetRepository = streetRepository;
-        this.districtRepository = districtRepository;
+        this.districtService = districtService;
     }
 
     @Override
@@ -30,7 +31,7 @@ public class StreetManager implements IStreetService {
     public AddStreetResponse add(AddStreetRequest addStreetRequest) {
         Street street = new Street();
         street.setName(addStreetRequest.getName());
-        street.setDistrict(this.districtRepository.findById(addStreetRequest.getDistrictId()).orElseThrow());
+        street.setDistrict(this.districtService.getById((addStreetRequest.getDistrictId())));
 
         Street savedStreet = this.streetRepository.save(street);
 
