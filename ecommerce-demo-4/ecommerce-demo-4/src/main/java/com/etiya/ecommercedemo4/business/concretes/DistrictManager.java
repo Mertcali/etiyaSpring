@@ -4,6 +4,7 @@ import com.etiya.ecommercedemo4.business.abstracts.IDistrictService;
 import com.etiya.ecommercedemo4.business.abstracts.ITownService;
 import com.etiya.ecommercedemo4.business.dtos.request.district.AddDistrictRequest;
 import com.etiya.ecommercedemo4.business.dtos.response.district.AddDistrictResponse;
+import com.etiya.ecommercedemo4.core.util.mapping.ModelMapperService;
 import com.etiya.ecommercedemo4.entities.concretes.District;
 import com.etiya.ecommercedemo4.repository.IDistrictRepository;
 import com.etiya.ecommercedemo4.repository.ITownRepository;
@@ -16,10 +17,13 @@ public class DistrictManager implements IDistrictService {
 
     private IDistrictRepository districtRepository;
     private ITownService townService;
+    private ModelMapperService modelMapperService;
 
-    public DistrictManager(IDistrictRepository districtRepository,ITownService townService) {
+
+    public DistrictManager(IDistrictRepository districtRepository,ITownService townService,ModelMapperService modelMapperService) {
         this.districtRepository = districtRepository;
         this.townService = townService;
+        this.modelMapperService=modelMapperService;
     }
 
     @Override
@@ -35,6 +39,14 @@ public class DistrictManager implements IDistrictService {
     @Override
     public AddDistrictResponse add(AddDistrictRequest addDistrictRequest) {
 
+        District district = this.modelMapperService.forRequest().map(addDistrictRequest,District.class);
+        District savedDistrict = this.districtRepository.save(district);
+        AddDistrictResponse response = this.modelMapperService.forResponse().map(savedDistrict,AddDistrictResponse.class);
+
+        return response;
+
+        //*****MANUEL_MAPPING*****
+        /*
         District district = new District();
         district.setName(addDistrictRequest.getName());
         district.setTown(this.townService.getById(addDistrictRequest.getTownId()));
@@ -46,6 +58,6 @@ public class DistrictManager implements IDistrictService {
         response.setTownName(savedDistrict.getTown().getName());
         response.setName(savedDistrict.getName());
 
-        return response;
+         */
     }
 }

@@ -41,8 +41,14 @@ public class CityManager implements ICityService {
     @Override
     public AddCityResponse add(AddCityRequest addCityRequest) {
 
-        //********MANUEL_MAPPING////////
+        City city = this.modelMapperService.forRequest().map(addCityRequest,City.class);
+        City savedCity = this.cityRepository.save(city);
+        AddCityResponse response = this.modelMapperService.forResponse().map(savedCity,AddCityResponse.class);
 
+        return response;
+
+        //********MANUEL_MAPPING////////
+        /*
         City city = new City();
         city.setName(addCityRequest.getName());
         city.setCountry(this.countryService.getById(addCityRequest.getCountryId()));
@@ -53,8 +59,7 @@ public class CityManager implements ICityService {
         response.setId(savedCity.getId());
         response.setName(savedCity.getName());
         response.setCountryName(savedCity.getCountry().getName());
-
-        return response;
+         */
     }
 
     @Override

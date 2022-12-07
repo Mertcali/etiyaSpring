@@ -6,6 +6,7 @@ import com.etiya.ecommercedemo4.business.abstracts.IStreetService;
 import com.etiya.ecommercedemo4.business.abstracts.IUserService;
 import com.etiya.ecommercedemo4.business.dtos.request.address.AddAddressRequest;
 import com.etiya.ecommercedemo4.business.dtos.response.address.AddAddressResponse;
+import com.etiya.ecommercedemo4.core.util.mapping.ModelMapperService;
 import com.etiya.ecommercedemo4.entities.concretes.*;
 import com.etiya.ecommercedemo4.repository.IAddressRepository;
 import org.springframework.stereotype.Service;
@@ -19,12 +20,15 @@ public class AddressManager implements IAddressService {
     private IAddressTypeService addressTypeService;
     private IStreetService streetService;
     private IUserService userService;
+    private ModelMapperService modelMapperService;
 
-    public AddressManager(IAddressRepository addressRepository, IAddressTypeService addressTypeService, IStreetService streetService, IUserService userService) {
+    public AddressManager(IAddressRepository addressRepository, IAddressTypeService addressTypeService,
+                          IStreetService streetService, IUserService userService,ModelMapperService modelMapperService) {
         this.addressRepository = addressRepository;
         this.addressTypeService = addressTypeService;
         this.streetService = streetService;
         this.userService = userService;
+        this.modelMapperService=modelMapperService;
     }
 
     @Override
@@ -48,23 +52,9 @@ public class AddressManager implements IAddressService {
         checkIfStreetExists(addAddressRequest.getStreetId());
         checkIfUserExists(addAddressRequest.getUserId());
 
-        Address address = new Address();
-        address.setDescription(addAddressRequest.getDescription());
-        address.setAddressType(this.addressTypeService.getById(addAddressRequest.getAddressTypeId()));
-        address.setUser(this.userService.getById(addAddressRequest.getUserId()));
-        address.setStreet(this.streetService.getById(addAddressRequest.getStreetId()));
-
-
+        Address address = this.modelMapperService.forRequest().map(addAddressRequest,Address.class);
         Address savedAddress = this.addressRepository.save(address);
-
-        AddAddressResponse response = new AddAddressResponse();
-        response.setId(savedAddress.getId());
-        response.setDescription(savedAddress.getDescription());
-        response.setUserName(savedAddress.getUser().getName());
-        response.setAddressTypeName(savedAddress.getAddressType().getName());
-        response.setStreetName(savedAddress.getStreet().getName());
-
-        //**********************ADDRESS SET ****************
+        AddAddressResponse response = this.modelMapperService.forResponse().map(savedAddress,AddAddressResponse.class);
 
         String districtName = getDistrictByStreetId(addAddressRequest.getStreetId()).getName();
         String townName = getTownByDistrictName(districtName).getName();
@@ -76,7 +66,37 @@ public class AddressManager implements IAddressService {
         response.setCityName(cityName);
         response.setCountryName(countryName);
 
+        response.setUser(this.userService.getById(savedAddress.getUser().getId()));
+        response.setAddressType(this.addressTypeService.getById(savedAddress.getAddressType().getId()));
+        response.setStreet(this.streetService.getById(savedAddress.getStreet().getId()));
+
         return response;
+
+        //******MANUEL_MAPPING******
+
+        /*
+        Address address = new Address();
+        address.setDescription(addAddressRequest.getDescription());
+        address.setAddressType(this.addressTypeService.getById(addAddressRequest.getAddressTypeId()));
+        address.setUser(this.userService.getById(addAddressRequest.getUserId()));
+        address.setStreet(this.streetService.getById(addAddressRequest.getStreetId()));
+        Address savedAddress = this.addressRepository.save(address);
+        */
+
+        //******MANUEL_MAPPING_RESPONSE******
+
+        /*
+        AddAddressResponse response = new AddAddressResponse();
+        response.setId(savedAddress.getId());
+        response.setDescription(savedAddress.getDescription());
+        response.setUserName(savedAddress.getUser().getName());
+        response.setAddressTypeName(savedAddress.getAddressType().getName());
+        response.setStreetName(savedAddress.getStreet().getName());
+         */
+
+        //**********************ADDRESS SET ****************
+
+
     }
 
 

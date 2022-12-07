@@ -64,6 +64,12 @@ public class ProductManager implements IProductService {
         checkIfCategoryExists(addProductRequest.getCategoryId());
         Category category = this.categoryService.getById(addProductRequest.getCategoryId());
 
+        Product product = this.modelMapperService.forRequest().map(addProductRequest,Product.class);
+        Product savedProduct = this.productRepository.save(product);
+        AddProductResponse response = this.modelMapperService.forResponse().map(savedProduct,AddProductResponse.class);
+
+        return response;
+
         //********MANUEL_MAPPING***********
 
         /*
@@ -73,10 +79,6 @@ public class ProductManager implements IProductService {
         product.setUnitPrice(addProductRequest.getUnitPrice());
         product.setProductionDate(addProductRequest.getProductionDate());
          */
-
-        Product product = this.modelMapperService.forRequest().map(addProductRequest,Product.class);
-        Product savedProduct = this.productRepository.save(product);
-
         //********MANUEL_MAPPING_RESPONSE***********
 
         /*
@@ -84,9 +86,6 @@ public class ProductManager implements IProductService {
                 savedProduct.getName(),savedProduct.getUnitPrice(),
                 savedProduct.getProductionDate(),savedProduct.getStock(), category.getName());
          */
-
-        AddProductResponse response = this.modelMapperService.forResponse().map(savedProduct,AddProductResponse.class);
-
         //********PRODUCT_CATEGORIES_SET_PRENSIP_KARŞITI***********
 
       /*
@@ -97,7 +96,7 @@ public class ProductManager implements IProductService {
         this.productCategoriesService.add(addProductCategoriesRequest);
        */
 
-        return response;
+
     }
 
     private void checkIfCategoryExists(int id){
