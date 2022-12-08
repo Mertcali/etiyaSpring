@@ -10,6 +10,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class GetAllCategoriesWithProductResponse {
+
     private int id;
     private String name;
     private String productName;

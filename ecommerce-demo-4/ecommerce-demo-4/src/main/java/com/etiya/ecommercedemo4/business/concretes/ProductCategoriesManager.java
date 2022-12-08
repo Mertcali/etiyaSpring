@@ -40,9 +40,9 @@ public class ProductCategoriesManager implements IProductCategoriesService {
     @Override
     public AddProductCategoriesResponse add(AddProductCategoriesRequest addProductCategoriesRequest) {
 
-        ProductCategories productCategories = this.modelMapperService.forRequest().map(addProductCategoriesRequest,ProductCategories.class);
+        ProductCategories productCategories = this.modelMapperService.getMappingStandard().map(addProductCategoriesRequest,ProductCategories.class);
         ProductCategories savedProductCategories = this.productCategoriesRepository.save(productCategories);
-        AddProductCategoriesResponse response = this.modelMapperService.forResponse().map(savedProductCategories,AddProductCategoriesResponse.class);
+        AddProductCategoriesResponse response = this.modelMapperService.getMappingStandard().map(savedProductCategories,AddProductCategoriesResponse.class);
 
         return response;
 

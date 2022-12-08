@@ -37,9 +37,9 @@ public class CategoryManager implements ICategoryService {
     @Override
     public AddCategoryResponse add(AddCategoryRequest addCategoryRequest) {
         checkIfCategoryNameExists(addCategoryRequest.getName());
-        Category category = this.modelMapperService.forRequest().map(addCategoryRequest, Category.class);
+        Category category = this.modelMapperService.getMappingStandard().map(addCategoryRequest, Category.class);
         Category savedCategory = this.categoryRepository.save(category);
-        AddCategoryResponse response = this.modelMapperService.forResponse().map(savedCategory,AddCategoryResponse.class);
+        AddCategoryResponse response = this.modelMapperService.getMappingStandard().map(savedCategory,AddCategoryResponse.class);
 
         return response;
 

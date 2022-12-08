@@ -33,9 +33,9 @@ public class StreetManager implements IStreetService {
     @Override
     public AddStreetResponse add(AddStreetRequest addStreetRequest) {
 
-        Street street = this.modelMapperService.forRequest().map(addStreetRequest,Street.class);
+        Street street = this.modelMapperService.getMappingStandard().map(addStreetRequest,Street.class);
         Street savedStreet = this.streetRepository.save(street);
-        AddStreetResponse response = this.modelMapperService.forResponse().map(savedStreet,AddStreetResponse.class);
+        AddStreetResponse response = this.modelMapperService.getMappingStandard().map(savedStreet,AddStreetResponse.class);
 
         return response;
 

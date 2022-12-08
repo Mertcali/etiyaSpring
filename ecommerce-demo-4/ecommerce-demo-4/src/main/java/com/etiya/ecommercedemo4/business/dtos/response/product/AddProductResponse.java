@@ -1,6 +1,7 @@
 package com.etiya.ecommercedemo4.business.dtos.response.product;
 
 
+import com.etiya.ecommercedemo4.entities.concretes.Category;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,5 +20,6 @@ public class AddProductResponse {
     private double unitPrice;
     private Date productionDate;
     private int stock;
-    private String categoryName;
+    //private String categoryName;
+    private Category category;
 }

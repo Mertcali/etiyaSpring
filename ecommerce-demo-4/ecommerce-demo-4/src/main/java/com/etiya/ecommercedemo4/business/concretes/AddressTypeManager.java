@@ -34,9 +34,9 @@ public class AddressTypeManager implements IAddressTypeService {
     @Override
     public AddAddressTypeResponse add(AddAddressTypeRequest addAddressTypeRequest) {
 
-        AddressType addressType = this.modelMapperService.forRequest().map(addAddressTypeRequest,AddressType.class);
+        AddressType addressType = this.modelMapperService.getMappingStandard().map(addAddressTypeRequest,AddressType.class);
         AddressType savedAddressType = this.addressTypeRepository.save(addressType);
-        AddAddressTypeResponse response = this.modelMapperService.forResponse().map(savedAddressType,AddAddressTypeResponse.class);
+        AddAddressTypeResponse response = this.modelMapperService.getMappingStandard().map(savedAddressType,AddAddressTypeResponse.class);
 
         return response;
 

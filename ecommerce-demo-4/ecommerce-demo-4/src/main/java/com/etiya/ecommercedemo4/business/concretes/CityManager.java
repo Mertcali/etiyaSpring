@@ -41,9 +41,9 @@ public class CityManager implements ICityService {
     @Override
     public AddCityResponse add(AddCityRequest addCityRequest) {
 
-        City city = this.modelMapperService.forRequest().map(addCityRequest,City.class);
+        City city = this.modelMapperService.getMappingStandard().map(addCityRequest,City.class);
         City savedCity = this.cityRepository.save(city);
-        AddCityResponse response = this.modelMapperService.forResponse().map(savedCity,AddCityResponse.class);
+        AddCityResponse response = this.modelMapperService.getMappingStandard().map(savedCity,AddCityResponse.class);
 
         return response;
 

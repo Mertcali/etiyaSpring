@@ -53,9 +53,9 @@ public class AddressManager implements IAddressService {
         checkIfStreetExists(addAddressRequest.getStreetId());
         checkIfUserExists(addAddressRequest.getUserId());
 
-        Address address = this.modelMapperService.forRequest().map(addAddressRequest,Address.class);
+        Address address = this.modelMapperService.getMappingStandard().map(addAddressRequest,Address.class);
         Address savedAddress = this.addressRepository.save(address);
-        AddAddressResponse response = this.modelMapperService.forResponse().map(savedAddress,AddAddressResponse.class);
+        AddAddressResponse response = this.modelMapperService.getMappingStandard().map(savedAddress,AddAddressResponse.class);
 
         String districtName = getDistrictByStreetId(addAddressRequest.getStreetId()).getName();
         String townName = getTownByDistrictName(districtName).getName();

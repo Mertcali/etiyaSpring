@@ -1,5 +1,6 @@
 package com.etiya.ecommercedemo4.business.dtos.response.town;
 
+import com.etiya.ecommercedemo4.entities.concretes.City;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,5 +14,5 @@ public class AddTownResponse {
 
     private int id;
     private String name;
-    private String cityName;
+    private City city;
 }

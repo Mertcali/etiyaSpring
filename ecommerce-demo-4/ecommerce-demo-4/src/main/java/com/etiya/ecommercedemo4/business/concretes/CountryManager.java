@@ -44,9 +44,9 @@ public class CountryManager implements ICountryService {
     @Override
     public AddCountryResponse add(AddCountryRequest addCountryRequest) {
 
-        Country country = this.modelMapperService.forRequest().map(addCountryRequest,Country.class);
+        Country country = this.modelMapperService.getMappingStandard().map(addCountryRequest,Country.class);
         Country savedCountry = this.countryRepository.save(country);
-        AddCountryResponse response = this.modelMapperService.forResponse().map(savedCountry,AddCountryResponse.class);
+        AddCountryResponse response = this.modelMapperService.getMappingStandard().map(savedCountry,AddCountryResponse.class);
 
         return response;
 

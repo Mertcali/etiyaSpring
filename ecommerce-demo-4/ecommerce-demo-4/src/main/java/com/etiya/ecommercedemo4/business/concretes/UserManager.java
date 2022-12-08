@@ -29,9 +29,9 @@ public class UserManager implements IUserService {
     @Override
     public AddUserResponse add(AddUserRequest addUserRequest) {
 
-        User user = this.modelMapperService.forRequest().map(addUserRequest,User.class);
+        User user = this.modelMapperService.getMappingStandard().map(addUserRequest,User.class);
         User savedUser = this.userRepository.save(user);
-        AddUserResponse response = this.modelMapperService.forResponse().map(savedUser,AddUserResponse.class);
+        AddUserResponse response = this.modelMapperService.getMappingStandard().map(savedUser,AddUserResponse.class);
 
         return response;
 

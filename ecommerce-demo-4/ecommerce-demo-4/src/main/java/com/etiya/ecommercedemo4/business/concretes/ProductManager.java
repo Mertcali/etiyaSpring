@@ -11,6 +11,8 @@ import com.etiya.ecommercedemo4.core.util.mapping.ModelMapperService;
 import com.etiya.ecommercedemo4.entities.concretes.Category;
 import com.etiya.ecommercedemo4.entities.concretes.Product;
 import com.etiya.ecommercedemo4.repository.IProductRepository;
+import org.modelmapper.ModelMapper;
+import org.modelmapper.PropertyMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
@@ -27,11 +29,13 @@ public class ProductManager implements IProductService {
 
     @Autowired
     public ProductManager(IProductRepository IProductRepository,ICategoryService categoryService,
-                          @Lazy IProductCategoriesService productCategoriesService,ModelMapperService modelMapperService) {
+                          @Lazy IProductCategoriesService productCategoriesService,
+                          ModelMapperService modelMapperService) {
         this.productRepository = IProductRepository;
         this.categoryService =categoryService;
         this.productCategoriesService=productCategoriesService;
         this.modelMapperService=modelMapperService;
+
     }
 
     @Override
@@ -62,12 +66,19 @@ public class ProductManager implements IProductService {
     @Override
     public AddProductResponse add(AddProductRequest addProductRequest) {
 
+
         checkIfCategoryExists(addProductRequest.getCategoryId());
         Category category = this.categoryService.getById(addProductRequest.getCategoryId());
 
-        Product product = this.modelMapperService.forRequest().map(addProductRequest,Product.class);
+
+
+        Product product = this.modelMapperService.getMappingStandard().map(addProductRequest,Product.class);
+
         Product savedProduct = this.productRepository.save(product);
-        AddProductResponse response = this.modelMapperService.forResponse().map(savedProduct,AddProductResponse.class);
+        AddProductResponse response = this.modelMapperService.getMappingStandard().map(savedProduct,AddProductResponse.class);
+
+        response.setCategory(category);
+        System.out.println("xxxxx");
 
         return response;
 
@@ -79,6 +90,8 @@ public class ProductManager implements IProductService {
         product.setStock(addProductRequest.getStock());
         product.setUnitPrice(addProductRequest.getUnitPrice());
         product.setProductionDate(addProductRequest.getProductionDate());
+        Product savedProduct = this.productRepository.save(product);
+
          */
         //********MANUEL_MAPPING_RESPONSE***********
 

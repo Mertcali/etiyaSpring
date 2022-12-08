@@ -33,9 +33,11 @@ public class TownManager implements ITownService {
     @Override
     public AddTownResponse add(AddTownRequest addTownRequest) {
 
-        Town town = this.modelMapperService.forRequest().map(addTownRequest,Town.class);
+        Town town = this.modelMapperService.getMappingLoose().map(addTownRequest,Town.class);
+
         Town savedTown = this.townRepository.save(town);
-        AddTownResponse response = this.modelMapperService.forResponse().map(savedTown,AddTownResponse.class);
+        AddTownResponse response = this.modelMapperService.getMappingLoose().map(savedTown,AddTownResponse.class);
+
 
         return response;
 

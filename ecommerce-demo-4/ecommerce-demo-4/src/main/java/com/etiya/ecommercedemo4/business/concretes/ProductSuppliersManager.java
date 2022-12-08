@@ -31,11 +31,11 @@ public class ProductSuppliersManager implements IProductSuppliersService {
     @Override
     public AddProductSuppliersResponse add(AddProductSuppliersRequest addProductSuppliersRequest) {
 
-        ProductSuppliers productSuppliers = this.modelMapperService.forRequest().map(addProductSuppliersRequest,ProductSuppliers.class);
+        ProductSuppliers productSuppliers = this.modelMapperService.getMappingStandard().map(addProductSuppliersRequest,ProductSuppliers.class);
 
         ProductSuppliers savedProductSuppliers = this.productSuppliersRepository.save(productSuppliers);
 
-        AddProductSuppliersResponse response = this.modelMapperService.forResponse().map(savedProductSuppliers,AddProductSuppliersResponse.class);
+        AddProductSuppliersResponse response = this.modelMapperService.getMappingStandard().map(savedProductSuppliers,AddProductSuppliersResponse.class);
         return response;
 
     }
