@@ -1,6 +1,7 @@
 package com.etiya.ecommercedemo4.business.concretes;
 
 import com.etiya.ecommercedemo4.business.abstracts.ICategoryService;
+import com.etiya.ecommercedemo4.business.constants.Messages;
 import com.etiya.ecommercedemo4.business.dtos.request.category.AddCategoryRequest;
 import com.etiya.ecommercedemo4.business.dtos.response.category.AddCategoryResponse;
 import com.etiya.ecommercedemo4.business.dtos.response.category.GetAllCategoriesWithProductResponse;
@@ -83,7 +84,7 @@ public class CategoryManager implements ICategoryService {
     private void checkIfCategoryNameExists(String name){
         boolean isExists = this.categoryRepository.existsCategoryByNameIgnoreCase(name);
         if(isExists){
-            throw new RuntimeException("CATEGORY_EXISTS");
+            throw new RuntimeException(Messages.Category.CategoryExists);
         }
     }
 }

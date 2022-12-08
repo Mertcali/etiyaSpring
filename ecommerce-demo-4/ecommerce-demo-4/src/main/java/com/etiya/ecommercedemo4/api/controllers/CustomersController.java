@@ -1,6 +1,7 @@
 package com.etiya.ecommercedemo4.api.controllers;
 
 import com.etiya.ecommercedemo4.business.abstracts.ICustomerService;
+import com.etiya.ecommercedemo4.business.constants.Paths;
 import com.etiya.ecommercedemo4.entities.concretes.Customer;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -11,7 +12,7 @@ import java.util.Date;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/customers")
+@RequestMapping(Paths.apiPrefix +"customers")
 public class CustomersController {
 
     private ICustomerService customerService;

@@ -1,6 +1,7 @@
 package com.etiya.ecommercedemo4.api.controllers;
 
 import com.etiya.ecommercedemo4.business.abstracts.ICategoryService;
+import com.etiya.ecommercedemo4.business.constants.Paths;
 import com.etiya.ecommercedemo4.business.dtos.request.category.AddCategoryRequest;
 import com.etiya.ecommercedemo4.business.dtos.response.category.AddCategoryResponse;
 import com.etiya.ecommercedemo4.business.dtos.response.category.GetAllCategoriesWithProductResponse;
@@ -14,7 +15,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/categories")
+@RequestMapping(Paths.apiPrefix +"categories")
 public class CategoriesController {
 
     private ICategoryService categoryService;

@@ -1,6 +1,7 @@
 package com.etiya.ecommercedemo4.api.controllers;
 
 import com.etiya.ecommercedemo4.business.abstracts.ICityService;
+import com.etiya.ecommercedemo4.business.constants.Paths;
 import com.etiya.ecommercedemo4.business.dtos.request.city.AddCityRequest;
 import com.etiya.ecommercedemo4.business.dtos.response.city.AddCityResponse;
 import com.etiya.ecommercedemo4.business.dtos.response.city.GetAllCitiesResponse;
@@ -14,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/cities")
+@RequestMapping(Paths.apiPrefix +"cities")
 public class CitiesController {
     private ICityService cityService;
 

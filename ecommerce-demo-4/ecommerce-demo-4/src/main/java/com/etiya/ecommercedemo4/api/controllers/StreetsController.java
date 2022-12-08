@@ -1,6 +1,7 @@
 package com.etiya.ecommercedemo4.api.controllers;
 
 import com.etiya.ecommercedemo4.business.abstracts.IStreetService;
+import com.etiya.ecommercedemo4.business.constants.Paths;
 import com.etiya.ecommercedemo4.business.dtos.request.street.AddStreetRequest;
 import com.etiya.ecommercedemo4.business.dtos.response.street.AddStreetResponse;
 import com.etiya.ecommercedemo4.entities.concretes.Street;
@@ -9,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/streets")
+@RequestMapping(Paths.apiPrefix +"streets")
 public class StreetsController {
 
     private IStreetService streetService;

@@ -4,6 +4,7 @@ import com.etiya.ecommercedemo4.business.abstracts.IAddressService;
 import com.etiya.ecommercedemo4.business.abstracts.IAddressTypeService;
 import com.etiya.ecommercedemo4.business.abstracts.IStreetService;
 import com.etiya.ecommercedemo4.business.abstracts.IUserService;
+import com.etiya.ecommercedemo4.business.constants.Messages;
 import com.etiya.ecommercedemo4.business.dtos.request.address.AddAddressRequest;
 import com.etiya.ecommercedemo4.business.dtos.response.address.AddAddressResponse;
 import com.etiya.ecommercedemo4.core.util.mapping.ModelMapperService;
@@ -119,14 +120,14 @@ public class AddressManager implements IAddressService {
     private void checkIfStreetExists(int id){
         Street street = this.streetService.getById(id);
         if(street==null){
-            throw new RuntimeException("STREET_DOES_NOT_EXIST");
+            throw new RuntimeException(Messages.Address.StreetDoesNotExist);
         }
     }
 
     private void checkIfUserExists(int id) {
         User user = this.userService.getById(id);
         if (user == null){
-            throw new RuntimeException("USER_DOES_NOT_EXISTS");
+            throw new RuntimeException(Messages.User.UserDoesNotExist);
         }
     }
 }

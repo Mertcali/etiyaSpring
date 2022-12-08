@@ -1,6 +1,7 @@
 package com.etiya.ecommercedemo4.api.controllers;
 
 import com.etiya.ecommercedemo4.business.abstracts.IDistrictService;
+import com.etiya.ecommercedemo4.business.constants.Paths;
 import com.etiya.ecommercedemo4.business.dtos.request.district.AddDistrictRequest;
 import com.etiya.ecommercedemo4.business.dtos.response.district.AddDistrictResponse;
 import com.etiya.ecommercedemo4.entities.concretes.District;
@@ -10,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/districts")
+@RequestMapping(Paths.apiPrefix +"districts")
 public class DistrictsController {
 
     private IDistrictService districtService;

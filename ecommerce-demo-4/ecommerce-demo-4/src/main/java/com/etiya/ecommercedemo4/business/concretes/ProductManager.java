@@ -3,6 +3,7 @@ package com.etiya.ecommercedemo4.business.concretes;
 import com.etiya.ecommercedemo4.business.abstracts.ICategoryService;
 import com.etiya.ecommercedemo4.business.abstracts.IProductCategoriesService;
 import com.etiya.ecommercedemo4.business.abstracts.IProductService;
+import com.etiya.ecommercedemo4.business.constants.Messages;
 import com.etiya.ecommercedemo4.business.dtos.request.product.AddProductRequest;
 import com.etiya.ecommercedemo4.business.dtos.request.productCategories.AddProductCategoriesRequest;
 import com.etiya.ecommercedemo4.business.dtos.response.product.AddProductResponse;
@@ -102,7 +103,7 @@ public class ProductManager implements IProductService {
     private void checkIfCategoryExists(int id){
         Category category = this.categoryService.getById(id);
         if(category==null){
-            throw new RuntimeException("CATEGORY_DOES_NOT_EXIST");
+            throw new RuntimeException(Messages.Category.CategoryDoesNotExist);
         }
     }
 

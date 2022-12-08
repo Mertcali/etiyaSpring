@@ -1,6 +1,7 @@
 package com.etiya.ecommercedemo4.api.controllers;
 
 import com.etiya.ecommercedemo4.business.abstracts.IAddressService;
+import com.etiya.ecommercedemo4.business.constants.Paths;
 import com.etiya.ecommercedemo4.business.dtos.request.address.AddAddressRequest;
 import com.etiya.ecommercedemo4.business.dtos.response.address.AddAddressResponse;
 import com.etiya.ecommercedemo4.entities.concretes.Address;
@@ -12,7 +13,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/addresses")
+@RequestMapping(Paths.apiPrefix + "addresses")
 public class AddressesController {
 
     private IAddressService addressService;

@@ -1,6 +1,7 @@
 package com.etiya.ecommercedemo4.api.controllers;
 
 import com.etiya.ecommercedemo4.business.abstracts.IProductService;
+import com.etiya.ecommercedemo4.business.constants.Paths;
 import com.etiya.ecommercedemo4.business.dtos.request.product.AddProductRequest;
 import com.etiya.ecommercedemo4.business.dtos.response.product.AddProductResponse;
 import com.etiya.ecommercedemo4.entities.concretes.Product;
@@ -13,7 +14,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/products")
+@RequestMapping(Paths.apiPrefix +"products")
 public class ProductsController {
 
 
