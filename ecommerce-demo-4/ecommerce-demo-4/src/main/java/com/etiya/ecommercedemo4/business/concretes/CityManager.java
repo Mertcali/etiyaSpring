@@ -2,50 +2,50 @@ package com.etiya.ecommercedemo4.business.concretes;
 
 import com.etiya.ecommercedemo4.business.abstracts.ICityService;
 import com.etiya.ecommercedemo4.business.abstracts.ICountryService;
+import com.etiya.ecommercedemo4.business.constants.Messages;
 import com.etiya.ecommercedemo4.business.dtos.request.city.AddCityRequest;
-import com.etiya.ecommercedemo4.business.dtos.response.city.AddCityResponse;
 import com.etiya.ecommercedemo4.business.dtos.response.city.GetAllCitiesResponse;
 import com.etiya.ecommercedemo4.core.util.mapping.ModelMapperService;
+import com.etiya.ecommercedemo4.core.util.results.DataResult;
+import com.etiya.ecommercedemo4.core.util.results.Result;
+import com.etiya.ecommercedemo4.core.util.results.SuccessDataResult;
+import com.etiya.ecommercedemo4.core.util.results.SuccessResult;
 import com.etiya.ecommercedemo4.entities.concretes.City;
-import com.etiya.ecommercedemo4.entities.concretes.Country;
 import com.etiya.ecommercedemo4.repository.ICityRepository;
-import com.etiya.ecommercedemo4.repository.ICountryRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@AllArgsConstructor
 @Service
 public class CityManager implements ICityService {
 
     private ICityRepository cityRepository;
     private ICountryService countryService;
-
     private ModelMapperService modelMapperService;
-    public CityManager(ICityRepository cityRepository,ICountryService countryService,ModelMapperService modelMapperService) {
-        this.cityRepository = cityRepository;
-        this.countryService = countryService;
-        this.modelMapperService = modelMapperService;
+
+
+    @Override
+    public DataResult<List<City>> getAll() {
+        List<City> response = this.cityRepository.findAll();
+        return new SuccessDataResult<List<City>>(response, Messages.SuccessMessages.ListAll);
     }
 
     @Override
-    public List<City> getAll() {
-        return this.cityRepository.findAll();
+    public DataResult<City> getById(int id) {
+        City response = this.cityRepository.findById(id).orElseThrow();
+        return new SuccessDataResult<City>(response, Messages.SuccessMessages.ListById);
     }
 
     @Override
-    public City getById(int id) {
-        return this.cityRepository.findById(id).orElseThrow();
-    }
+    public Result add(AddCityRequest addCityRequest) {
 
-    @Override
-    public AddCityResponse add(AddCityRequest addCityRequest) {
+        City city = this.modelMapperService.forRequest().map(addCityRequest,City.class);
+        this.cityRepository.save(city);
 
-        City city = this.modelMapperService.getMappingStandard().map(addCityRequest,City.class);
-        City savedCity = this.cityRepository.save(city);
-        AddCityResponse response = this.modelMapperService.getMappingStandard().map(savedCity,AddCityResponse.class);
-
-        return response;
+        return new SuccessResult(Messages.SuccessMessages.Add);
 
         //********MANUEL_MAPPING////////
         /*
@@ -59,11 +59,16 @@ public class CityManager implements ICityService {
         response.setId(savedCity.getId());
         response.setName(savedCity.getName());
         response.setCountryName(savedCity.getCountry().getName());
+
+        //*****MODEL_MAPPER_RESPONSE_SET*****
+         City savedCity = this.cityRepository.save(city);
+        AddCityResponse response = this.modelMapperService.forResponse().map(savedCity,AddCityResponse.class);
          */
+
     }
 
     @Override
-    public List<GetAllCitiesResponse> getAllResponsePattern() {
+    public DataResult<List<GetAllCitiesResponse>> getAllResponsePattern() {
         List<City> cities = this.cityRepository.findAll();
         List<GetAllCitiesResponse> responseList = new ArrayList<>();
 
@@ -75,7 +80,7 @@ public class CityManager implements ICityService {
             responseList.add(response);
         }
 
-        return responseList;
+        return new SuccessDataResult<List<GetAllCitiesResponse>>(responseList, Messages.SuccessMessages.ListAll);
     }
 
 

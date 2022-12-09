@@ -6,14 +6,19 @@ import com.etiya.ecommercedemo4.business.abstracts.IStreetService;
 import com.etiya.ecommercedemo4.business.abstracts.IUserService;
 import com.etiya.ecommercedemo4.business.constants.Messages;
 import com.etiya.ecommercedemo4.business.dtos.request.address.AddAddressRequest;
-import com.etiya.ecommercedemo4.business.dtos.response.address.AddAddressResponse;
 import com.etiya.ecommercedemo4.core.util.mapping.ModelMapperService;
+import com.etiya.ecommercedemo4.core.util.results.DataResult;
+import com.etiya.ecommercedemo4.core.util.results.Result;
+import com.etiya.ecommercedemo4.core.util.results.SuccessDataResult;
+import com.etiya.ecommercedemo4.core.util.results.SuccessResult;
 import com.etiya.ecommercedemo4.entities.concretes.*;
 import com.etiya.ecommercedemo4.repository.IAddressRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@AllArgsConstructor
 @Service
 public class AddressManager implements IAddressService {
 
@@ -23,55 +28,37 @@ public class AddressManager implements IAddressService {
     private IUserService userService;
     private ModelMapperService modelMapperService;
 
-    public AddressManager(IAddressRepository addressRepository, IAddressTypeService addressTypeService,
-                          IStreetService streetService, IUserService userService,ModelMapperService modelMapperService) {
-        this.addressRepository = addressRepository;
-        this.addressTypeService = addressTypeService;
-        this.streetService = streetService;
-        this.userService = userService;
-        this.modelMapperService=modelMapperService;
+
+    @Override
+    public DataResult<List<Address>> getAll() {
+        List<Address> response = this.addressRepository.findAll();
+        return new SuccessDataResult<List<Address>>(response, Messages.SuccessMessages.ListAll);
     }
 
     @Override
-    public List<Address> getAll() {
-        return this.addressRepository.findAll();
+    public DataResult<Address> getById(int id) {
+        Address response = this.addressRepository.findById(id).orElseThrow();
+        return new SuccessDataResult<Address>(response, Messages.SuccessMessages.ListById);
     }
 
     @Override
-    public Address getById(int id) {
-        return this.addressRepository.findById(id).orElseThrow();
+    public DataResult<List<Address>> getByAddressType() {
+        List<Address> response = this.addressRepository.findByAddressType();
+        return new SuccessDataResult<List<Address>>(response,"ADDRESSES_LISTED_BY_ADDRESSTYPE");
+
     }
 
     @Override
-    public List<Address> getByAddressType() {
-        return this.addressRepository.findByAddressType();
-    }
-
-    @Override
-    public AddAddressResponse add(AddAddressRequest addAddressRequest) {
+    public Result add(AddAddressRequest addAddressRequest) {
 
         checkIfStreetExists(addAddressRequest.getStreetId());
         checkIfUserExists(addAddressRequest.getUserId());
 
-        Address address = this.modelMapperService.getMappingStandard().map(addAddressRequest,Address.class);
-        Address savedAddress = this.addressRepository.save(address);
-        AddAddressResponse response = this.modelMapperService.getMappingStandard().map(savedAddress,AddAddressResponse.class);
+        Address address = this.modelMapperService.forRequest().map(addAddressRequest,Address.class);
 
-        String districtName = getDistrictByStreetId(addAddressRequest.getStreetId()).getName();
-        String townName = getTownByDistrictName(districtName).getName();
-        String cityName = getCityByTownName(townName).getName();
-        String countryName = getCountryByCityName(cityName).getName();
+        this.addressRepository.save(address);
+        return new SuccessResult(Messages.SuccessMessages.Add);
 
-        response.setDistrictName(districtName);
-        response.setTownName(townName);
-        response.setCityName(cityName);
-        response.setCountryName(countryName);
-
-        response.setUser(this.userService.getById(savedAddress.getUser().getId()));
-        response.setAddressType(this.addressTypeService.getById(savedAddress.getAddressType().getId()));
-        response.setStreet(this.streetService.getById(savedAddress.getStreet().getId()));
-
-        return response;
 
         //******MANUEL_MAPPING******
 
@@ -97,6 +84,25 @@ public class AddressManager implements IAddressService {
 
         //**********************ADDRESS SET ****************
 
+        // ***** ADD_ADDRESS_RESPONSE_SET *****
+        /*
+        Address savedAddress = this.addressRepository.save(address);
+        AddAddressResponse response = this.modelMapperService.getMappingStandard().map(savedAddress,AddAddressResponse.class);
+        String districtName = getDistrictByStreetId(addAddressRequest.getStreetId()).getName();
+        String townName = getTownByDistrictName(districtName).getName();
+        String cityName = getCityByTownName(townName).getName();
+        String countryName = getCountryByCityName(cityName).getName();
+
+        response.setDistrictName(districtName);
+        response.setTownName(townName);
+        response.setCityName(cityName);
+        response.setCountryName(countryName);
+
+        response.setUser(this.userService.getById(savedAddress.getUser().getId()));
+        response.setAddressType(this.addressTypeService.getById(savedAddress.getAddressType().getId()));
+        response.setStreet(this.streetService.getById(savedAddress.getStreet().getId()));
+
+         */
 
     }
 

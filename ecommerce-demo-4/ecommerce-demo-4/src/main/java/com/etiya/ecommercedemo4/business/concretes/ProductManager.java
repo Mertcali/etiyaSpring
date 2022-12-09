@@ -68,14 +68,12 @@ public class ProductManager implements IProductService {
 
 
         checkIfCategoryExists(addProductRequest.getCategoryId());
-        Category category = this.categoryService.getById(addProductRequest.getCategoryId());
+        Category category = this.categoryService.getById(addProductRequest.getCategoryId()).getData();
 
-
-
-        Product product = this.modelMapperService.getMappingStandard().map(addProductRequest,Product.class);
+        Product product = this.modelMapperService.forRequest().map(addProductRequest,Product.class);
 
         Product savedProduct = this.productRepository.save(product);
-        AddProductResponse response = this.modelMapperService.getMappingStandard().map(savedProduct,AddProductResponse.class);
+        AddProductResponse response = this.modelMapperService.forResponse().map(savedProduct,AddProductResponse.class);
 
         response.setCategory(category);
         System.out.println("xxxxx");
@@ -114,7 +112,7 @@ public class ProductManager implements IProductService {
     }
 
     private void checkIfCategoryExists(int id){
-        Category category = this.categoryService.getById(id);
+        Category category = this.categoryService.getById(id).getData();
         if(category==null){
             throw new RuntimeException(Messages.Category.CategoryDoesNotExist);
         }

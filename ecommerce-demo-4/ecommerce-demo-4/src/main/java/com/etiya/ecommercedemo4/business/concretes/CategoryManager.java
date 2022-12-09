@@ -3,45 +3,46 @@ package com.etiya.ecommercedemo4.business.concretes;
 import com.etiya.ecommercedemo4.business.abstracts.ICategoryService;
 import com.etiya.ecommercedemo4.business.constants.Messages;
 import com.etiya.ecommercedemo4.business.dtos.request.category.AddCategoryRequest;
-import com.etiya.ecommercedemo4.business.dtos.response.category.AddCategoryResponse;
-import com.etiya.ecommercedemo4.business.dtos.response.category.GetAllCategoriesWithProductResponse;
+import com.etiya.ecommercedemo4.business.dtos.response.category.GetCategoryByIdWithProductsResponse;
 import com.etiya.ecommercedemo4.core.util.mapping.ModelMapperService;
+import com.etiya.ecommercedemo4.core.util.results.DataResult;
+import com.etiya.ecommercedemo4.core.util.results.Result;
+import com.etiya.ecommercedemo4.core.util.results.SuccessDataResult;
+import com.etiya.ecommercedemo4.core.util.results.SuccessResult;
 import com.etiya.ecommercedemo4.entities.concretes.Category;
 import com.etiya.ecommercedemo4.repository.ICategoryRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
+@AllArgsConstructor
 @Service
 public class CategoryManager implements ICategoryService {
 
     private ICategoryRepository categoryRepository;
     private ModelMapperService modelMapperService;
 
-    public CategoryManager(ICategoryRepository categoryRepository,ModelMapperService modelMapperService) {
-        this.categoryRepository = categoryRepository;
-        this.modelMapperService = modelMapperService;
+
+    @Override
+    public DataResult<List<Category>> getAll() {
+        List<Category> response = this.categoryRepository.findAll();
+        return new SuccessDataResult<List<Category>>(response, Messages.SuccessMessages.ListAll);
     }
 
     @Override
-    public List<Category> getAll() {
-        return this.categoryRepository.findAll();
+    public DataResult<Category> getById(int id) {
+        Category response = this.categoryRepository.findById(id).orElseThrow();
+        return new SuccessDataResult<Category>(response, Messages.SuccessMessages.ListById);
     }
 
     @Override
-    public Category getById(int id) {
-        return this.categoryRepository.findById(id).orElseThrow();
-    }
-
-    @Override
-    public AddCategoryResponse add(AddCategoryRequest addCategoryRequest) {
+    public Result add(AddCategoryRequest addCategoryRequest) {
         checkIfCategoryNameExists(addCategoryRequest.getName());
-        Category category = this.modelMapperService.getMappingStandard().map(addCategoryRequest, Category.class);
-        Category savedCategory = this.categoryRepository.save(category);
-        AddCategoryResponse response = this.modelMapperService.getMappingStandard().map(savedCategory,AddCategoryResponse.class);
+        Category category = this.modelMapperService.forRequest().map(addCategoryRequest, Category.class);
+        this.categoryRepository.save(category);
 
-        return response;
+        return new SuccessResult(Messages.SuccessMessages.Add);
 
         //*****MANUEL_MAPPING*****
         /*
@@ -53,32 +54,20 @@ public class CategoryManager implements ICategoryService {
         AddCategoryResponse response = new AddCategoryResponse();
         response.setId(savedCategory.getId());
         response.setName(savedCategory.getName());
+
+        //*****MODEL_MAPPER_RESPONSE_SET*****
+        Category savedCategory = this.categoryRepository.save(category);
+        AddCategoryResponse response = this.modelMapperService.forResponse().map(savedCategory,AddCategoryResponse.class);
          */
+
+
     }
 
-    @Override
-    public List<GetAllCategoriesWithProductResponse> getAllResponsePattern() {
-        List<Category> categories = this.categoryRepository.findAll();
-        List<GetAllCategoriesWithProductResponse> responseList = new ArrayList<>();
-
-        for(Category category : categories){
-            GetAllCategoriesWithProductResponse response = new GetAllCategoriesWithProductResponse();
-            response.setId(category.getId());
-            response.setName(category.getName());
-
-        }
-
-        return null;
-    }
 
     @Override
-    public List<Category> denemeEndPoint(int id) {
-        return this.categoryRepository.denemeEndPoint(id);
-    }
-
-    @Override
-    public List<GetAllCategoriesWithProductResponse> denemeEndPoint2(int id) {
-        return this.categoryRepository.denemeEndPoint2(id);
+    public DataResult<List<GetCategoryByIdWithProductsResponse>> getAllDto(int id) {
+        List<GetCategoryByIdWithProductsResponse> response = this.categoryRepository.getAllDto(id);
+        return new SuccessDataResult<List<GetCategoryByIdWithProductsResponse>>(response, Messages.SuccessMessages.ListAll);
     }
 
     private void checkIfCategoryNameExists(String name){

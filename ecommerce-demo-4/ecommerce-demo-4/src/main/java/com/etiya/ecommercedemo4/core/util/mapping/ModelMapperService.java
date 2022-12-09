@@ -4,10 +4,9 @@ import org.modelmapper.ModelMapper;
 
 public interface ModelMapperService {
 
-    ModelMapper getMappingStandard();
-
+    ModelMapper forRequest();
     ModelMapper getMappingStrict();
-    ModelMapper getMappingLoose();
+    ModelMapper forResponse();
 
 
 }

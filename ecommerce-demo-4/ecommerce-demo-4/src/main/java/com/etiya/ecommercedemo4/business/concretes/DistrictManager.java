@@ -39,9 +39,9 @@ public class DistrictManager implements IDistrictService {
     @Override
     public AddDistrictResponse add(AddDistrictRequest addDistrictRequest) {
 
-        District district = this.modelMapperService.getMappingStandard().map(addDistrictRequest,District.class);
+        District district = this.modelMapperService.forRequest().map(addDistrictRequest,District.class);
         District savedDistrict = this.districtRepository.save(district);
-        AddDistrictResponse response = this.modelMapperService.getMappingStandard().map(savedDistrict,AddDistrictResponse.class);
+        AddDistrictResponse response = this.modelMapperService.forResponse().map(savedDistrict,AddDistrictResponse.class);
 
         return response;
 

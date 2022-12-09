@@ -5,6 +5,8 @@ import com.etiya.ecommercedemo4.business.constants.Paths;
 import com.etiya.ecommercedemo4.business.dtos.request.city.AddCityRequest;
 import com.etiya.ecommercedemo4.business.dtos.response.city.AddCityResponse;
 import com.etiya.ecommercedemo4.business.dtos.response.city.GetAllCitiesResponse;
+import com.etiya.ecommercedemo4.core.util.results.DataResult;
+import com.etiya.ecommercedemo4.core.util.results.Result;
 import com.etiya.ecommercedemo4.entities.concretes.City;
 import com.etiya.ecommercedemo4.entities.concretes.Country;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,22 +27,22 @@ public class CitiesController {
     }
 
     @GetMapping("/getAll")
-    public List<City> getAll(){
+    public DataResult<List<City>> getAll(){
         return this.cityService.getAll();
     }
 
     @GetMapping("{id}")
-    public City getById(@PathVariable int id){
+    public DataResult<City> getById(@PathVariable int id){
         return this.cityService.getById(id);
     }
 
     @PostMapping("/add")
-    public ResponseEntity<AddCityResponse> add(AddCityRequest addCityRequest){
-        return new ResponseEntity<AddCityResponse>(this.cityService.add(addCityRequest), HttpStatus.CREATED);
+    public ResponseEntity<Result> add(AddCityRequest addCityRequest){
+        return new ResponseEntity<Result>(this.cityService.add(addCityRequest), HttpStatus.CREATED);
     }
 
     @GetMapping("/getAllCitiesResponsePattern")
-    public List<GetAllCitiesResponse> getAllCitiesResponseResponseEntity(){
+    public DataResult<List<GetAllCitiesResponse>> getAllCitiesResponseResponseEntity(){
         return this.cityService.getAllResponsePattern();
     }
 

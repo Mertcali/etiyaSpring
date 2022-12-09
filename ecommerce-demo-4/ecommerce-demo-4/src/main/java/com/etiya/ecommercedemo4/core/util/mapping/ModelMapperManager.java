@@ -18,23 +18,23 @@ public class ModelMapperManager implements ModelMapperService{
 
 
     @Override
-    public ModelMapper getMappingStandard() {
+    public ModelMapper forRequest() {
         this.modelMapper.getConfiguration().setAmbiguityIgnored(true)
-                .setMatchingStrategy(MatchingStrategies.STANDARD);
+                .setMatchingStrategy(MatchingStrategies.STANDARD).setFieldMatchingEnabled(true);
         return this.modelMapper;
     }
 
     @Override
     public ModelMapper getMappingStrict() {
         this.modelMapper.getConfiguration().setAmbiguityIgnored(true)
-                .setMatchingStrategy(MatchingStrategies.STRICT);
+                .setMatchingStrategy(MatchingStrategies.STRICT).setFieldMatchingEnabled(true);
         return this.modelMapper;
     }
 
     @Override
-    public ModelMapper getMappingLoose() {
+    public ModelMapper forResponse() {
         this.modelMapper.getConfiguration().setAmbiguityIgnored(true)
-                .setMatchingStrategy(MatchingStrategies.LOOSE);
+                .setMatchingStrategy(MatchingStrategies.LOOSE).setFieldMatchingEnabled(true);
         return this.modelMapper;
     }
 

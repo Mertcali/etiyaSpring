@@ -1,9 +1,14 @@
 package com.etiya.ecommercedemo4.business.concretes;
 
 import com.etiya.ecommercedemo4.business.abstracts.ICountryService;
+import com.etiya.ecommercedemo4.business.constants.Messages;
 import com.etiya.ecommercedemo4.business.dtos.request.country.AddCountryRequest;
 import com.etiya.ecommercedemo4.business.dtos.response.country.AddCountryResponse;
 import com.etiya.ecommercedemo4.core.util.mapping.ModelMapperService;
+import com.etiya.ecommercedemo4.core.util.results.DataResult;
+import com.etiya.ecommercedemo4.core.util.results.Result;
+import com.etiya.ecommercedemo4.core.util.results.SuccessDataResult;
+import com.etiya.ecommercedemo4.core.util.results.SuccessResult;
 import com.etiya.ecommercedemo4.entities.concretes.Country;
 import com.etiya.ecommercedemo4.repository.ICountryRepository;
 import org.springframework.stereotype.Service;
@@ -22,42 +27,36 @@ public class CountryManager implements ICountryService {
     }
 
     @Override
-    public List<Country> getAll() {
-        return this.countryRepository.findAll();
+    public DataResult<List<Country>> getAll() {
+        List<Country> response = this.countryRepository.findAll();
+        return new SuccessDataResult<List<Country>>(response, Messages.SuccessMessages.ListAll);
     }
 
     @Override
-    public Country getById(int id) {
-        return this.countryRepository.findById(id).orElseThrow();
+    public DataResult<Country> getById(int id) {
+        Country response = this.countryRepository.findById(id).orElseThrow();
+        return new SuccessDataResult<Country>(response, Messages.SuccessMessages.ListById);
     }
 
     @Override
-    public Country getByName(String name) {
-        return this.countryRepository.findByName(name);
+    public DataResult<Country> getByName(String name) {
+        Country response =  this.countryRepository.findByName(name);
+        return new SuccessDataResult<Country>(response, Messages.SuccessMessages.ListByName);
     }
 
     @Override
-    public List<Country> getAllCountriesOrdered() {
-        return this.countryRepository.findAllCountriesOrderByName();
+    public DataResult<List<Country>> getAllCountriesOrdered() {
+        List<Country> response = this.countryRepository.findAllCountriesOrderByName();
+        return new SuccessDataResult<List<Country>>(response, Messages.SuccessMessages.Succeeded);
     }
 
     @Override
-    public AddCountryResponse add(AddCountryRequest addCountryRequest) {
+    public Result add(AddCountryRequest addCountryRequest) {
 
-        Country country = this.modelMapperService.getMappingStandard().map(addCountryRequest,Country.class);
-        Country savedCountry = this.countryRepository.save(country);
-        AddCountryResponse response = this.modelMapperService.getMappingStandard().map(savedCountry,AddCountryResponse.class);
+        Country country = this.modelMapperService.forRequest().map(addCountryRequest,Country.class);
+        this.countryRepository.save(country);
 
-        return response;
+        return new SuccessResult(Messages.SuccessMessages.Add);
 
-        //*****MANUEL_MAPPING*****
-        /*
-        Country country = new Country();
-        country.setName(addCountryRequest.getName());
-
-        Country savedCountry = this.countryRepository.save(country);
-
-        AddCountryResponse response = new AddCountryResponse(savedCountry.getId(), savedCountry.getName());
-         */
     }
 }

@@ -4,6 +4,8 @@ import com.etiya.ecommercedemo4.business.abstracts.IAddressService;
 import com.etiya.ecommercedemo4.business.constants.Paths;
 import com.etiya.ecommercedemo4.business.dtos.request.address.AddAddressRequest;
 import com.etiya.ecommercedemo4.business.dtos.response.address.AddAddressResponse;
+import com.etiya.ecommercedemo4.core.util.results.DataResult;
+import com.etiya.ecommercedemo4.core.util.results.Result;
 import com.etiya.ecommercedemo4.entities.concretes.Address;
 import com.etiya.ecommercedemo4.entities.concretes.Country;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,22 +26,22 @@ public class AddressesController {
     }
 
     @GetMapping("/getAll")
-    public List<Address> getAll(){
+    public DataResult<List<Address>> getAll(){
         return this.addressService.getAll();
     }
 
     @GetMapping("{id}")
-    public Address getById(@PathVariable int id){
+    public DataResult<Address> getById(@PathVariable int id){
         return this.addressService.getById(id);
     }
 
     @GetMapping("/getByAdressType")
-    public List<Address> getByAddressType(){
+    public DataResult<List<Address>> getByAddressType(){
         return this.addressService.getByAddressType();
     }
 
     @PostMapping("/add")
-    public AddAddressResponse add(@RequestBody @Valid AddAddressRequest addAddressRequest){
+    public Result add(@RequestBody @Valid AddAddressRequest addAddressRequest){
         return this.addressService.add(addAddressRequest);
     }
 

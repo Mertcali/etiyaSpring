@@ -1,44 +1,46 @@
 package com.etiya.ecommercedemo4.business.concretes;
 
 import com.etiya.ecommercedemo4.business.abstracts.IAddressTypeService;
+import com.etiya.ecommercedemo4.business.constants.Messages;
 import com.etiya.ecommercedemo4.business.dtos.request.addressType.AddAddressTypeRequest;
-import com.etiya.ecommercedemo4.business.dtos.response.addressType.AddAddressTypeResponse;
 import com.etiya.ecommercedemo4.core.util.mapping.ModelMapperService;
+import com.etiya.ecommercedemo4.core.util.results.DataResult;
+import com.etiya.ecommercedemo4.core.util.results.Result;
+import com.etiya.ecommercedemo4.core.util.results.SuccessDataResult;
+import com.etiya.ecommercedemo4.core.util.results.SuccessResult;
 import com.etiya.ecommercedemo4.entities.concretes.AddressType;
 import com.etiya.ecommercedemo4.repository.IAddressTypeRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@AllArgsConstructor
 @Service
 public class AddressTypeManager implements IAddressTypeService {
 
     private IAddressTypeRepository addressTypeRepository;
     private ModelMapperService modelMapperService;
 
-    public AddressTypeManager(IAddressTypeRepository addressTypeRepository,ModelMapperService modelMapperService) {
-        this.addressTypeRepository = addressTypeRepository;
-        this.modelMapperService = modelMapperService;
+
+    @Override
+    public DataResult<List<AddressType>> getAll() {
+        List<AddressType> response = this.addressTypeRepository.findAll();
+        return new SuccessDataResult<List<AddressType>>(response, Messages.SuccessMessages.ListAll);
     }
 
     @Override
-    public List<AddressType> getAll() {
-        return this.addressTypeRepository.findAll();
+    public DataResult<AddressType> getById(int id) {
+        AddressType response = this.addressTypeRepository.findById(id).orElseThrow();
+        return new SuccessDataResult<AddressType>(response, Messages.SuccessMessages.ListById);
     }
 
     @Override
-    public AddressType getById(int id) {
-        return this.addressTypeRepository.findById(id).orElseThrow();
-    }
+    public Result add(AddAddressTypeRequest addAddressTypeRequest) {
 
-    @Override
-    public AddAddressTypeResponse add(AddAddressTypeRequest addAddressTypeRequest) {
-
-        AddressType addressType = this.modelMapperService.getMappingStandard().map(addAddressTypeRequest,AddressType.class);
-        AddressType savedAddressType = this.addressTypeRepository.save(addressType);
-        AddAddressTypeResponse response = this.modelMapperService.getMappingStandard().map(savedAddressType,AddAddressTypeResponse.class);
-
-        return response;
+        AddressType addressType = this.modelMapperService.forRequest().map(addAddressTypeRequest,AddressType.class);
+        this.addressTypeRepository.save(addressType);
+        return new SuccessResult(Messages.SuccessMessages.Add);
 
         //*****MANUEL_MAPPING*****
         /*
@@ -48,7 +50,14 @@ public class AddressTypeManager implements IAddressTypeService {
         AddressType savedAddressType = this.addressTypeRepository.save(addressType);
 
         AddAddressTypeResponse response = new AddAddressTypeResponse(savedAddressType.getId(),savedAddressType.getName());
+
+
          */
+        //*****MODEL_MAPPER_RESPONSE_SET*****
+        /* AddressType savedAddressType = this.addressTypeRepository.save(addressType);
+        AddAddressTypeResponse response = this.modelMapperService.getMappingStandard()
+        .map(savedAddressType,AddAddressTypeResponse.class);
+        */
 
     }
 }

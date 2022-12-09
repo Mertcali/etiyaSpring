@@ -14,6 +14,14 @@ public class Messages {
         public static final String CategoryDoesNotExist = "CATEGORY_DOES_NOT_EXIST";
     }
 
+    public static class SuccessMessages {
+        public static final String Add = "ENTITY_ADDED";
+        public static final String ListAll = "ALL_ENTITIES_LISTED";
+        public static final String ListById ="ENTITY_LISTED_BY_ID";
+        public static final String ListByName ="ENTITY_LISTED_BY_NAME";
+        public static final String Succeeded ="REQUEST_SUCCEEDED";
+    }
+
 
 
 }

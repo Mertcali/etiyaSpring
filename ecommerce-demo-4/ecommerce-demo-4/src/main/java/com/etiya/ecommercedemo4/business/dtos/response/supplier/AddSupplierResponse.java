@@ -12,7 +12,7 @@ import lombok.Setter;
 @Setter
 public class AddSupplierResponse {
 
-    private int id;
+    private int supplierId;
     private String supplierNumber;
     private User user;
 }

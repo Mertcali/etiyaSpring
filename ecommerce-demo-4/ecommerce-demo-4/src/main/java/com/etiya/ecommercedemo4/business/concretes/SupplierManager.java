@@ -30,16 +30,16 @@ public class SupplierManager implements ISupplierService {
     @Override
     public AddSupplierResponse add(AddSupplierRequest addSupplierRequest) {
 
-        /*
-        Supplier supplier = this.modelMapperService.getMappingStandard().map(addSupplierRequest,Supplier.class);
 
+        Supplier supplier = this.modelMapperService.forRequest().map(addSupplierRequest,Supplier.class);
         Supplier savedSupplier = this.supplierRepository.save(supplier);
+        AddSupplierResponse response = this.modelMapperService.forResponse().map(savedSupplier,AddSupplierResponse.class);
 
-        AddSupplierResponse response = this.modelMapperService.getMappingStandard().map(savedSupplier,AddSupplierResponse.class);
 
-        response.setUser(this.userService.getById(savedSupplier.getUser().getId()));
 
-         */
+
+
+        /*
         Supplier supplier = new Supplier();
         supplier.setUser(this.userService.getById(addSupplierRequest.getUserId()));
         supplier.setSupplierNumber(addSupplierRequest.getSupplierNumber());
@@ -49,6 +49,8 @@ public class SupplierManager implements ISupplierService {
         response.setUser(savedSupplier.getUser());
         response.setSupplierNumber(savedSupplier.getSupplierNumber());
         response.setId(savedSupplier.getId());
+
+         */
         return response;
     }
 }

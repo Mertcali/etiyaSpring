@@ -9,7 +9,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class GetAllCategoriesWithProductResponse {
+public class GetCategoryByIdWithProductsResponse {
 
     private int id;
     private String name;
