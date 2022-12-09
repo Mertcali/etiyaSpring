@@ -46,22 +46,5 @@ public class ProductCategoriesManager implements IProductCategoriesService {
 
         return response;
 
-        //******MANUEL_MAPPING******
-
-        /*
-        ProductCategories productCategories = new ProductCategories();
-        productCategories.setCategory(this.categoryService.getById(addProductCategoriesRequest.getCategoryId()));
-        productCategories.setProduct(this.productService.getById(addProductCategoriesRequest.getProductId()));
-
-         */
-        //******MANUEL_MAPPING_RESPONSE******
-
-        /*
-        AddProductCategoriesResponse response = new AddProductCategoriesResponse();
-
-        response.setCategoryId(savedProductCategories.getCategory().getId());
-        response.setProductId(savedProductCategories.getProduct().getId());
-        response.setId(savedProductCategories.getId());
-         */
     }
 }

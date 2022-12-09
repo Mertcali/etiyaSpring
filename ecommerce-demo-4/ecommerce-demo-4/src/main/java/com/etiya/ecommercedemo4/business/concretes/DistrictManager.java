@@ -45,19 +45,5 @@ public class DistrictManager implements IDistrictService {
 
         return response;
 
-        //*****MANUEL_MAPPING*****
-        /*
-        District district = new District();
-        district.setName(addDistrictRequest.getName());
-        district.setTown(this.townService.getById(addDistrictRequest.getTownId()));
-
-        District savedDistrict = this.districtRepository.save(district);
-
-        AddDistrictResponse response = new AddDistrictResponse();
-        response.setId(savedDistrict.getId());
-        response.setTownName(savedDistrict.getTown().getName());
-        response.setName(savedDistrict.getName());
-
-         */
     }
 }

@@ -34,23 +34,6 @@ public class UserManager implements IUserService {
         AddUserResponse response = this.modelMapperService.forResponse().map(savedUser,AddUserResponse.class);
 
         return response;
-
-        //*****MANUEL_MAPPING*****
-        /*
-        User user = new User();
-        user.setName(addUserRequest.getName());
-        user.setEmail(addUserRequest.getEmail());
-        user.setPhoneNumber(addUserRequest.getPhoneNumber());
-
-        User savedUser = this.userRepository.save(user);
-
-        AddUserResponse response = new AddUserResponse();
-        response.setEmail(savedUser.getEmail());
-        response.setId(savedUser.getId());
-        response.setPhoneNumber(savedUser.getPhoneNumber());
-        response.setName(savedUser.getName());
-
-         */
     }
 
     @Override

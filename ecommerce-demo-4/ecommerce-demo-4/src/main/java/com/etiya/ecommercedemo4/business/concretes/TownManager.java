@@ -50,20 +50,6 @@ public class TownManager implements ITownService {
 
         return response;
 
-        //*****MANUEL_MAPPING*****
-        /*
-        Town town = new Town();
-        town.setCity(this.cityService.getById((addTownRequest.getCityId())));
-        town.setName(addTownRequest.getName());
-
-        Town savedTown = this.townRepository.save(town);
-
-        AddTownResponse response = new AddTownResponse();
-        response.setId(savedTown.getId());
-        response.setName(savedTown.getName());
-        response.setCityName(savedTown.getCity().getName());
-
-         */
     }
 
     @Override

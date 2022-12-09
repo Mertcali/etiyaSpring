@@ -44,23 +44,6 @@ public class CategoryManager implements ICategoryService {
 
         return new SuccessResult(Messages.SuccessMessages.Add);
 
-        //*****MANUEL_MAPPING*****
-        /*
-        Category category = new Category();
-        category.setName(addCategoryRequest.getName());
-
-        Category savedCategory = this.categoryRepository.save(category);
-
-        AddCategoryResponse response = new AddCategoryResponse();
-        response.setId(savedCategory.getId());
-        response.setName(savedCategory.getName());
-
-        //*****MODEL_MAPPER_RESPONSE_SET*****
-        Category savedCategory = this.categoryRepository.save(category);
-        AddCategoryResponse response = this.modelMapperService.forResponse().map(savedCategory,AddCategoryResponse.class);
-         */
-
-
     }
 
 

@@ -60,50 +60,6 @@ public class AddressManager implements IAddressService {
         return new SuccessResult(Messages.SuccessMessages.Add);
 
 
-        //******MANUEL_MAPPING******
-
-        /*
-        Address address = new Address();
-        address.setDescription(addAddressRequest.getDescription());
-        address.setAddressType(this.addressTypeService.getById(addAddressRequest.getAddressTypeId()));
-        address.setUser(this.userService.getById(addAddressRequest.getUserId()));
-        address.setStreet(this.streetService.getById(addAddressRequest.getStreetId()));
-        Address savedAddress = this.addressRepository.save(address);
-        */
-
-        //******MANUEL_MAPPING_RESPONSE******
-
-        /*
-        AddAddressResponse response = new AddAddressResponse();
-        response.setId(savedAddress.getId());
-        response.setDescription(savedAddress.getDescription());
-        response.setUserName(savedAddress.getUser().getName());
-        response.setAddressTypeName(savedAddress.getAddressType().getName());
-        response.setStreetName(savedAddress.getStreet().getName());
-         */
-
-        //**********************ADDRESS SET ****************
-
-        // ***** ADD_ADDRESS_RESPONSE_SET *****
-        /*
-        Address savedAddress = this.addressRepository.save(address);
-        AddAddressResponse response = this.modelMapperService.getMappingStandard().map(savedAddress,AddAddressResponse.class);
-        String districtName = getDistrictByStreetId(addAddressRequest.getStreetId()).getName();
-        String townName = getTownByDistrictName(districtName).getName();
-        String cityName = getCityByTownName(townName).getName();
-        String countryName = getCountryByCityName(cityName).getName();
-
-        response.setDistrictName(districtName);
-        response.setTownName(townName);
-        response.setCityName(cityName);
-        response.setCountryName(countryName);
-
-        response.setUser(this.userService.getById(savedAddress.getUser().getId()));
-        response.setAddressType(this.addressTypeService.getById(savedAddress.getAddressType().getId()));
-        response.setStreet(this.streetService.getById(savedAddress.getStreet().getId()));
-
-         */
-
     }
 
 

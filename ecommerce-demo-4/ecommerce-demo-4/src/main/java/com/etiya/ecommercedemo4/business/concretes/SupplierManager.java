@@ -35,22 +35,6 @@ public class SupplierManager implements ISupplierService {
         Supplier savedSupplier = this.supplierRepository.save(supplier);
         AddSupplierResponse response = this.modelMapperService.forResponse().map(savedSupplier,AddSupplierResponse.class);
 
-
-
-
-
-        /*
-        Supplier supplier = new Supplier();
-        supplier.setUser(this.userService.getById(addSupplierRequest.getUserId()));
-        supplier.setSupplierNumber(addSupplierRequest.getSupplierNumber());
-
-        Supplier savedSupplier = this.supplierRepository.save(supplier);
-        AddSupplierResponse response = new AddSupplierResponse();
-        response.setUser(savedSupplier.getUser());
-        response.setSupplierNumber(savedSupplier.getSupplierNumber());
-        response.setId(savedSupplier.getId());
-
-         */
         return response;
     }
 }

@@ -42,22 +42,6 @@ public class AddressTypeManager implements IAddressTypeService {
         this.addressTypeRepository.save(addressType);
         return new SuccessResult(Messages.SuccessMessages.Add);
 
-        //*****MANUEL_MAPPING*****
-        /*
-        AddressType addressType = new AddressType();
-        addressType.setName(addAddressTypeRequest.getName());
-
-        AddressType savedAddressType = this.addressTypeRepository.save(addressType);
-
-        AddAddressTypeResponse response = new AddAddressTypeResponse(savedAddressType.getId(),savedAddressType.getName());
-
-
-         */
-        //*****MODEL_MAPPER_RESPONSE_SET*****
-        /* AddressType savedAddressType = this.addressTypeRepository.save(addressType);
-        AddAddressTypeResponse response = this.modelMapperService.getMappingStandard()
-        .map(savedAddressType,AddAddressTypeResponse.class);
-        */
 
     }
 }

@@ -47,23 +47,6 @@ public class CityManager implements ICityService {
 
         return new SuccessResult(Messages.SuccessMessages.Add);
 
-        //********MANUEL_MAPPING////////
-        /*
-        City city = new City();
-        city.setName(addCityRequest.getName());
-        city.setCountry(this.countryService.getById(addCityRequest.getCountryId()));
-
-
-        City savedCity = this.cityRepository.save(city);
-        AddCityResponse response = new AddCityResponse();
-        response.setId(savedCity.getId());
-        response.setName(savedCity.getName());
-        response.setCountryName(savedCity.getCountry().getName());
-
-        //*****MODEL_MAPPER_RESPONSE_SET*****
-         City savedCity = this.cityRepository.save(city);
-        AddCityResponse response = this.modelMapperService.forResponse().map(savedCity,AddCityResponse.class);
-         */
 
     }
 

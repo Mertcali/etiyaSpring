@@ -80,35 +80,6 @@ public class ProductManager implements IProductService {
 
         return response;
 
-        //********MANUEL_MAPPING***********
-
-        /*
-        Product product = new Product();
-        product.setName(addProductRequest.getName());
-        product.setStock(addProductRequest.getStock());
-        product.setUnitPrice(addProductRequest.getUnitPrice());
-        product.setProductionDate(addProductRequest.getProductionDate());
-        Product savedProduct = this.productRepository.save(product);
-
-         */
-        //********MANUEL_MAPPING_RESPONSE***********
-
-        /*
-                AddProductResponse response = new AddProductResponse(savedProduct.getId(),
-                savedProduct.getName(),savedProduct.getUnitPrice(),
-                savedProduct.getProductionDate(),savedProduct.getStock(), category.getName());
-         */
-        //********PRODUCT_CATEGORIES_SET_PRENSIP_KARŞITI***********
-
-      /*
-        AddProductCategoriesRequest addProductCategoriesRequest = new AddProductCategoriesRequest();
-        addProductCategoriesRequest.setProductId(response.getId());
-        addProductCategoriesRequest.setCategoryId(category.getId());
-
-        this.productCategoriesService.add(addProductCategoriesRequest);
-       */
-
-
     }
 
     private void checkIfCategoryExists(int id){

@@ -41,21 +41,6 @@ public class StreetManager implements IStreetService {
 
         return response;
 
-        //*****MANUEL_MAPPING*****
-        /*
-        Street street = new Street();
-        street.setName(addStreetRequest.getName());
-        street.setDistrict(this.districtService.getById((addStreetRequest.getDistrictId())));
-
-        Street savedStreet = this.streetRepository.save(street);
-
-        AddStreetResponse response = new AddStreetResponse();
-        response.setId(savedStreet.getId());
-        response.setName(savedStreet.getName());
-        response.setDistrictName(savedStreet.getDistrict().getName());
-
-         */
-
     }
 
     @Override
