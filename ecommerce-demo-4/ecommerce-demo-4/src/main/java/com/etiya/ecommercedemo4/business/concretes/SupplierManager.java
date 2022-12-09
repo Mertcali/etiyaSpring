@@ -2,9 +2,14 @@ package com.etiya.ecommercedemo4.business.concretes;
 
 import com.etiya.ecommercedemo4.business.abstracts.ISupplierService;
 import com.etiya.ecommercedemo4.business.abstracts.IUserService;
+import com.etiya.ecommercedemo4.business.constants.Messages;
 import com.etiya.ecommercedemo4.business.dtos.request.supplier.AddSupplierRequest;
 import com.etiya.ecommercedemo4.business.dtos.response.supplier.AddSupplierResponse;
 import com.etiya.ecommercedemo4.core.util.mapping.ModelMapperService;
+import com.etiya.ecommercedemo4.core.util.results.DataResult;
+import com.etiya.ecommercedemo4.core.util.results.Result;
+import com.etiya.ecommercedemo4.core.util.results.SuccessDataResult;
+import com.etiya.ecommercedemo4.core.util.results.SuccessResult;
 import com.etiya.ecommercedemo4.entities.concretes.Supplier;
 import com.etiya.ecommercedemo4.repository.ISupplierRepository;
 import lombok.AllArgsConstructor;
@@ -23,18 +28,16 @@ public class SupplierManager implements ISupplierService {
 
 
     @Override
-    public List<Supplier> getAll() {
-        return this.supplierRepository.findAll();
+    public DataResult<List<Supplier>> getAll() {
+        List<Supplier> response = this.supplierRepository.findAll();
+        return new SuccessDataResult<List<Supplier>>(response, Messages.SuccessMessages.ListAll);
     }
 
     @Override
-    public AddSupplierResponse add(AddSupplierRequest addSupplierRequest) {
-
-
+    public Result add(AddSupplierRequest addSupplierRequest) {
         Supplier supplier = this.modelMapperService.forRequest().map(addSupplierRequest,Supplier.class);
-        Supplier savedSupplier = this.supplierRepository.save(supplier);
-        AddSupplierResponse response = this.modelMapperService.forResponse().map(savedSupplier,AddSupplierResponse.class);
+        this.supplierRepository.save(supplier);
 
-        return response;
+        return new SuccessResult(Messages.SuccessMessages.Add);
     }
 }

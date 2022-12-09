@@ -6,6 +6,7 @@ import com.etiya.ecommercedemo4.business.abstracts.IStreetService;
 import com.etiya.ecommercedemo4.business.abstracts.IUserService;
 import com.etiya.ecommercedemo4.business.constants.Messages;
 import com.etiya.ecommercedemo4.business.dtos.request.address.AddAddressRequest;
+import com.etiya.ecommercedemo4.business.dtos.response.address.GetAddressDto;
 import com.etiya.ecommercedemo4.core.util.mapping.ModelMapperService;
 import com.etiya.ecommercedemo4.core.util.results.DataResult;
 import com.etiya.ecommercedemo4.core.util.results.Result;
@@ -62,6 +63,11 @@ public class AddressManager implements IAddressService {
 
     }
 
+    @Override
+    public DataResult<GetAddressDto> getAddressDto(int id) {
+        GetAddressDto response = this.addressRepository.getAddressDto(id);
+        return new SuccessDataResult<GetAddressDto>(response,Messages.SuccessMessages.Succeeded);
+    }
 
     private Country getCountryByCityName(String name) {
         return this.addressRepository.findCountryByCityName(name);
@@ -80,14 +86,14 @@ public class AddressManager implements IAddressService {
     }
 
     private void checkIfStreetExists(int id){
-        Street street = this.streetService.getById(id);
+        Street street = this.streetService.getById(id).getData();
         if(street==null){
             throw new RuntimeException(Messages.Address.StreetDoesNotExist);
         }
     }
 
     private void checkIfUserExists(int id) {
-        User user = this.userService.getById(id);
+        User user = this.userService.getById(id).getData();
         if (user == null){
             throw new RuntimeException(Messages.User.UserDoesNotExist);
         }

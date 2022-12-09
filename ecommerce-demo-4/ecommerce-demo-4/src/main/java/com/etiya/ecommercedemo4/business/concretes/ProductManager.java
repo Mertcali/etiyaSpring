@@ -5,19 +5,21 @@ import com.etiya.ecommercedemo4.business.abstracts.IProductCategoriesService;
 import com.etiya.ecommercedemo4.business.abstracts.IProductService;
 import com.etiya.ecommercedemo4.business.constants.Messages;
 import com.etiya.ecommercedemo4.business.dtos.request.product.AddProductRequest;
-import com.etiya.ecommercedemo4.business.dtos.request.productCategories.AddProductCategoriesRequest;
 import com.etiya.ecommercedemo4.business.dtos.response.product.AddProductResponse;
 import com.etiya.ecommercedemo4.core.util.mapping.ModelMapperService;
+import com.etiya.ecommercedemo4.core.util.results.DataResult;
+import com.etiya.ecommercedemo4.core.util.results.Result;
+import com.etiya.ecommercedemo4.core.util.results.SuccessDataResult;
+import com.etiya.ecommercedemo4.core.util.results.SuccessResult;
 import com.etiya.ecommercedemo4.entities.concretes.Category;
 import com.etiya.ecommercedemo4.entities.concretes.Product;
 import com.etiya.ecommercedemo4.repository.IProductRepository;
-import org.modelmapper.ModelMapper;
-import org.modelmapper.PropertyMap;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+
 
 @Service
 public class ProductManager implements IProductService {
@@ -27,44 +29,48 @@ public class ProductManager implements IProductService {
     private IProductCategoriesService productCategoriesService;
     private ModelMapperService modelMapperService;
 
-    @Autowired
-    public ProductManager(IProductRepository IProductRepository,ICategoryService categoryService,
+    public ProductManager(IProductRepository productRepository,
+                          ICategoryService categoryService,
                           @Lazy IProductCategoriesService productCategoriesService,
                           ModelMapperService modelMapperService) {
-        this.productRepository = IProductRepository;
-        this.categoryService =categoryService;
-        this.productCategoriesService=productCategoriesService;
-        this.modelMapperService=modelMapperService;
-
+        this.productRepository = productRepository;
+        this.categoryService = categoryService;
+        this.productCategoriesService = productCategoriesService;
+        this.modelMapperService = modelMapperService;
     }
 
     @Override
-    public List<Product> getAll() {
-        return productRepository.findAll();
+    public DataResult<List<Product>> getAll() {
+        List<Product> response = productRepository.findAll();
+        return new SuccessDataResult<List<Product>>(response,Messages.SuccessMessages.ListAll);
     }
 
     @Override
-    public Product getById(int id) {
-        return productRepository.findById(id).orElseThrow();
+    public DataResult<Product> getById(int id) {
+        Product response = productRepository.findById(id).orElseThrow();
+        return new SuccessDataResult<Product>(response,Messages.SuccessMessages.ListById);
     }
 
     @Override
-    public List<Product> getAllByStock(int stock) {
-        return this.productRepository.findAllProductsByStockGreaterThanOrderByStockDesc(stock);
+    public DataResult<List<Product>> getAllByStock(int stock) {
+        List<Product> response = this.productRepository.findAllProductsByStockGreaterThanOrderByStockDesc(stock);
+        return new SuccessDataResult<List<Product>>(response,Messages.SuccessMessages.ListAll);
     }
 
     @Override
-    public Product getByName(String name) {
-        return this.productRepository.findByName(name);
+    public DataResult<Product> getByName(String name) {
+        Product response = this.productRepository.findByName(name);
+        return new SuccessDataResult<Product>(response,Messages.SuccessMessages.ListByName);
     }
 
     @Override
-    public List<Product> getAllProductsUnitPriceBetween(double start, double end) {
-        return this.productRepository.findAllProductsUnitPriceBetween(start,end);
+    public DataResult<List<Product>> getAllProductsUnitPriceBetween(double start, double end) {
+        List<Product> response = this.productRepository.findAllProductsUnitPriceBetween(start,end);
+        return new SuccessDataResult<List<Product>>(response,Messages.SuccessMessages.Succeeded);
     }
 
     @Override
-    public AddProductResponse add(AddProductRequest addProductRequest) {
+    public Result add(AddProductRequest addProductRequest) {
 
 
         checkIfCategoryExists(addProductRequest.getCategoryId());
@@ -78,7 +84,7 @@ public class ProductManager implements IProductService {
         response.setCategory(category);
         System.out.println("xxxxx");
 
-        return response;
+        return new SuccessResult(Messages.SuccessMessages.Add);
 
     }
 

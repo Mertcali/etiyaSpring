@@ -2,6 +2,7 @@ package com.etiya.ecommercedemo4.api.controllers;
 
 import com.etiya.ecommercedemo4.business.abstracts.IPaymentService;
 import com.etiya.ecommercedemo4.business.constants.Paths;
+import com.etiya.ecommercedemo4.core.util.results.DataResult;
 import com.etiya.ecommercedemo4.entities.concretes.Payment;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,12 +22,12 @@ public class PaymentsController {
     }
 
     @GetMapping("/getAll")
-    public List<Payment> getAll(){
+    public DataResult<List<Payment>> getAll(){
         return this.paymentService.getAll();
     }
 
     @GetMapping("{id}")
-    public Payment getById(@PathVariable int id){
+    public DataResult<Payment> getById(@PathVariable int id){
         return this.paymentService.getById(id);
     }
 }

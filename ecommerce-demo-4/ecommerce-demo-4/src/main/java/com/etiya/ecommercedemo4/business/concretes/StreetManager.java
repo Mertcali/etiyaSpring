@@ -2,17 +2,22 @@ package com.etiya.ecommercedemo4.business.concretes;
 
 import com.etiya.ecommercedemo4.business.abstracts.IDistrictService;
 import com.etiya.ecommercedemo4.business.abstracts.IStreetService;
+import com.etiya.ecommercedemo4.business.constants.Messages;
 import com.etiya.ecommercedemo4.business.dtos.request.street.AddStreetRequest;
 import com.etiya.ecommercedemo4.business.dtos.response.street.AddStreetResponse;
 import com.etiya.ecommercedemo4.core.util.mapping.ModelMapperService;
+import com.etiya.ecommercedemo4.core.util.results.DataResult;
+import com.etiya.ecommercedemo4.core.util.results.Result;
+import com.etiya.ecommercedemo4.core.util.results.SuccessDataResult;
+import com.etiya.ecommercedemo4.core.util.results.SuccessResult;
 import com.etiya.ecommercedemo4.entities.concretes.Street;
-import com.etiya.ecommercedemo4.repository.IDistrictRepository;
 import com.etiya.ecommercedemo4.repository.IStreetRepository;
-import org.modelmapper.TypeMap;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@AllArgsConstructor
 @Service
 public class StreetManager implements IStreetService {
 
@@ -20,31 +25,29 @@ public class StreetManager implements IStreetService {
     private IDistrictService districtService;
     private ModelMapperService modelMapperService;
 
-    public StreetManager(IStreetRepository streetRepository, IDistrictService districtService,ModelMapperService modelMapperService) {
-        this.streetRepository = streetRepository;
-        this.districtService = districtService;
-        this.modelMapperService = modelMapperService;
+
+
+    @Override
+    public DataResult<List<Street>> getAll() {
+        List<Street> response = this.streetRepository.findAll();
+        return new SuccessDataResult<List<Street>>(response, Messages.SuccessMessages.ListAll);
     }
 
     @Override
-    public List<Street> getAll() {
-        return this.streetRepository.findAll();
-    }
-
-    @Override
-    public AddStreetResponse add(AddStreetRequest addStreetRequest) {
+    public Result add(AddStreetRequest addStreetRequest) {
 
 
         Street street = this.modelMapperService.forRequest().map(addStreetRequest,Street.class);
-        Street savedStreet = this.streetRepository.save(street);
-        AddStreetResponse response = this.modelMapperService.forResponse().map(savedStreet,AddStreetResponse.class);
+        this.streetRepository.save(street);
 
-        return response;
+
+        return new SuccessResult(Messages.SuccessMessages.Add);
 
     }
 
     @Override
-    public Street getById(int id) {
-        return this.streetRepository.findById(id).orElseThrow();
+    public DataResult<Street> getById(int id) {
+        Street response =this.streetRepository.findById(id).orElseThrow();
+        return new SuccessDataResult<Street>(response,Messages.SuccessMessages.ListById);
     }
 }

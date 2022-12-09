@@ -66,5 +66,9 @@ public class CityManager implements ICityService {
         return new SuccessDataResult<List<GetAllCitiesResponse>>(responseList, Messages.SuccessMessages.ListAll);
     }
 
-
+    @Override
+    public DataResult<List<GetAllCitiesResponse>> getAllDto() {
+        List<GetAllCitiesResponse> response = this.cityRepository.getAllDto();
+        return new SuccessDataResult<List<GetAllCitiesResponse>>(response,Messages.SuccessMessages.Succeeded);
+    }
 }

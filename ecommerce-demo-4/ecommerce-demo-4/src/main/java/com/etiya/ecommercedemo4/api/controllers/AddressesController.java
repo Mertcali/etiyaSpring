@@ -4,6 +4,7 @@ import com.etiya.ecommercedemo4.business.abstracts.IAddressService;
 import com.etiya.ecommercedemo4.business.constants.Paths;
 import com.etiya.ecommercedemo4.business.dtos.request.address.AddAddressRequest;
 import com.etiya.ecommercedemo4.business.dtos.response.address.AddAddressResponse;
+import com.etiya.ecommercedemo4.business.dtos.response.address.GetAddressDto;
 import com.etiya.ecommercedemo4.core.util.results.DataResult;
 import com.etiya.ecommercedemo4.core.util.results.Result;
 import com.etiya.ecommercedemo4.entities.concretes.Address;
@@ -43,6 +44,11 @@ public class AddressesController {
     @PostMapping("/add")
     public Result add(@RequestBody @Valid AddAddressRequest addAddressRequest){
         return this.addressService.add(addAddressRequest);
+    }
+
+    @RequestMapping(value = "/getAddressDto/{id}", method = RequestMethod.GET)
+    public DataResult<GetAddressDto> getAddressDto(@PathVariable int id){
+        return this.addressService.getAddressDto(id);
     }
 
  /*   @RequestMapping(value = "/id/{id}", method = RequestMethod.GET)

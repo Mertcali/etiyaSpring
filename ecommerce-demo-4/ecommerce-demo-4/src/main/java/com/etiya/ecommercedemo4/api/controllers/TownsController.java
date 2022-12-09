@@ -4,6 +4,8 @@ import com.etiya.ecommercedemo4.business.abstracts.ITownService;
 import com.etiya.ecommercedemo4.business.constants.Paths;
 import com.etiya.ecommercedemo4.business.dtos.request.town.AddTownRequest;
 import com.etiya.ecommercedemo4.business.dtos.response.town.AddTownResponse;
+import com.etiya.ecommercedemo4.core.util.results.DataResult;
+import com.etiya.ecommercedemo4.core.util.results.Result;
 import com.etiya.ecommercedemo4.entities.concretes.Town;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,12 +22,12 @@ public class TownsController {
     }
 
     @GetMapping("/getAll")
-    public List<Town> getAll(){
+    public DataResult<List<Town>> getAll(){
         return this.townService.getAll();
     }
 
     @PostMapping("/add")
-    public AddTownResponse add(@RequestBody AddTownRequest addTownRequest){
+    public Result add(@RequestBody AddTownRequest addTownRequest){
         return this.townService.add(addTownRequest);
     }
 }

@@ -11,20 +11,18 @@ import com.etiya.ecommercedemo4.core.util.results.SuccessDataResult;
 import com.etiya.ecommercedemo4.core.util.results.SuccessResult;
 import com.etiya.ecommercedemo4.entities.concretes.Country;
 import com.etiya.ecommercedemo4.repository.ICountryRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@AllArgsConstructor
 @Service
 public class CountryManager implements ICountryService {
 
     private ICountryRepository countryRepository;
     private ModelMapperService modelMapperService;
 
-    public CountryManager(ICountryRepository countryRepository,ModelMapperService modelMapperService) {
-        this.countryRepository = countryRepository;
-        this.modelMapperService = modelMapperService;
-    }
 
     @Override
     public DataResult<List<Country>> getAll() {

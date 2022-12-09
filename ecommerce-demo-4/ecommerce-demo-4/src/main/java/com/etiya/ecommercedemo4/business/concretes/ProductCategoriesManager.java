@@ -3,15 +3,22 @@ package com.etiya.ecommercedemo4.business.concretes;
 import com.etiya.ecommercedemo4.business.abstracts.ICategoryService;
 import com.etiya.ecommercedemo4.business.abstracts.IProductCategoriesService;
 import com.etiya.ecommercedemo4.business.abstracts.IProductService;
+import com.etiya.ecommercedemo4.business.constants.Messages;
 import com.etiya.ecommercedemo4.business.dtos.request.productCategories.AddProductCategoriesRequest;
 import com.etiya.ecommercedemo4.business.dtos.response.productCategories.AddProductCategoriesResponse;
 import com.etiya.ecommercedemo4.core.util.mapping.ModelMapperService;
+import com.etiya.ecommercedemo4.core.util.results.DataResult;
+import com.etiya.ecommercedemo4.core.util.results.Result;
+import com.etiya.ecommercedemo4.core.util.results.SuccessDataResult;
+import com.etiya.ecommercedemo4.core.util.results.SuccessResult;
 import com.etiya.ecommercedemo4.entities.concretes.ProductCategories;
 import com.etiya.ecommercedemo4.repository.IProductCategoriesRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@AllArgsConstructor
 @Service
 public class ProductCategoriesManager implements IProductCategoriesService {
     private IProductCategoriesRepository productCategoriesRepository;
@@ -19,32 +26,26 @@ public class ProductCategoriesManager implements IProductCategoriesService {
     private IProductService productService;
     private ModelMapperService modelMapperService;
 
-    public ProductCategoriesManager(IProductCategoriesRepository productCategoriesRepository,ICategoryService categoryService,
-                                    IProductService productService,ModelMapperService modelMapperService) {
-        this.productCategoriesRepository = productCategoriesRepository;
-        this.categoryService = categoryService;
-        this.productService=productService;
-        this.modelMapperService = modelMapperService;
+
+    @Override
+    public DataResult<List<ProductCategories>> getAll() {
+        List<ProductCategories> response = this.productCategoriesRepository.findAll();
+        return new SuccessDataResult<List<ProductCategories>>(response, Messages.SuccessMessages.ListAll);
     }
 
     @Override
-    public List<ProductCategories> getAll() {
-        return this.productCategoriesRepository.findAll();
+    public DataResult<ProductCategories> getById(int id) {
+        ProductCategories response = this.productCategoriesRepository.findById(id).orElseThrow();
+        return new SuccessDataResult<ProductCategories>(response,Messages.SuccessMessages.ListById);
     }
 
     @Override
-    public ProductCategories getById(int id) {
-        return this.productCategoriesRepository.findById(id).orElseThrow();
-    }
-
-    @Override
-    public AddProductCategoriesResponse add(AddProductCategoriesRequest addProductCategoriesRequest) {
+    public Result add(AddProductCategoriesRequest addProductCategoriesRequest) {
 
         ProductCategories productCategories = this.modelMapperService.forRequest().map(addProductCategoriesRequest,ProductCategories.class);
-        ProductCategories savedProductCategories = this.productCategoriesRepository.save(productCategories);
-        AddProductCategoriesResponse response = this.modelMapperService.forResponse().map(savedProductCategories,AddProductCategoriesResponse.class);
+        this.productCategoriesRepository.save(productCategories);
 
-        return response;
+        return new SuccessResult(Messages.SuccessMessages.Add);
 
     }
 }

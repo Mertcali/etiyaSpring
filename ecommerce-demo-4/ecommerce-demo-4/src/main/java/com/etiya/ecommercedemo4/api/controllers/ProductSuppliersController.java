@@ -4,6 +4,8 @@ import com.etiya.ecommercedemo4.business.abstracts.IProductSuppliersService;
 import com.etiya.ecommercedemo4.business.constants.Paths;
 import com.etiya.ecommercedemo4.business.dtos.request.productSuppliers.AddProductSuppliersRequest;
 import com.etiya.ecommercedemo4.business.dtos.response.productSuppliers.AddProductSuppliersResponse;
+import com.etiya.ecommercedemo4.core.util.results.DataResult;
+import com.etiya.ecommercedemo4.core.util.results.Result;
 import com.etiya.ecommercedemo4.entities.concretes.ProductSuppliers;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,12 +22,12 @@ public class ProductSuppliersController {
     }
 
     @GetMapping("/getAll")
-    public List<ProductSuppliers> getAll(){
+    public DataResult<List<ProductSuppliers>> getAll(){
         return this.productSuppliersService.getAll();
     }
 
     @PostMapping("/add")
-    public AddProductSuppliersResponse add(@RequestBody AddProductSuppliersRequest addProductSuppliersRequest){
+    public Result add(@RequestBody AddProductSuppliersRequest addProductSuppliersRequest){
         return this.productSuppliersService.add(addProductSuppliersRequest);
     }
 }

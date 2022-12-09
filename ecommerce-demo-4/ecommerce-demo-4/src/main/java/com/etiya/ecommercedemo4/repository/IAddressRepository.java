@@ -1,5 +1,6 @@
 package com.etiya.ecommercedemo4.repository;
 
+import com.etiya.ecommercedemo4.business.dtos.response.address.GetAddressDto;
 import com.etiya.ecommercedemo4.entities.concretes.*;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -25,4 +26,10 @@ public interface IAddressRepository extends JpaRepository<Address,Integer> {
 
     @Query("select d from Street s inner join s.district d where s.id =:id")
     District findDistrictByStreetId(int id);
+
+    @Query("select new com.etiya.ecommercedemo4.business.dtos.response.address.GetAddressDto" +
+            "(a.id,u.name,s.name,d.name,t.name,c.name,co.name)" +
+            " from Address a inner join a.street s inner join s.district d inner join d.town t inner join" +
+            " t.city c inner join c.country co inner join a.user u where a.id =:id")
+    GetAddressDto getAddressDto(int id);
 }
