@@ -37,6 +37,7 @@ public class UserManager implements IUserService {
     public Result add(AddUserRequest addUserRequest) {
 
         User user = this.modelMapperService.forRequest().map(addUserRequest,User.class);
+        user.setId(0);
         this.userRepository.save(user);
 
         return new SuccessResult(Messages.SuccessMessages.Add);

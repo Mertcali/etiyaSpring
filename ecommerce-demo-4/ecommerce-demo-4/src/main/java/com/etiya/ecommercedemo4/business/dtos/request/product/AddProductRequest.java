@@ -6,6 +6,7 @@ import lombok.Setter;
 
 import javax.validation.constraints.*;
 import java.util.Date;
+import java.util.List;
 
 @AllArgsConstructor
 @Getter
@@ -25,7 +26,7 @@ public class AddProductRequest {
     @PositiveOrZero(message = "MUST BE POSITIVE OR ZERO")
     private int stock;
 
-    @Positive(message = "MUST BE POSITIVE")
-    private int categoryId;
+    //@Positive(message = "MUST BE POSITIVE")
+    private int productCategoryId;
 
 }

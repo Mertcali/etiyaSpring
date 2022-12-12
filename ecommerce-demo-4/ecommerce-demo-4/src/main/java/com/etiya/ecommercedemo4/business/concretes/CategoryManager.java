@@ -4,6 +4,7 @@ import com.etiya.ecommercedemo4.business.abstracts.ICategoryService;
 import com.etiya.ecommercedemo4.business.constants.Messages;
 import com.etiya.ecommercedemo4.business.dtos.request.category.AddCategoryRequest;
 import com.etiya.ecommercedemo4.business.dtos.response.category.GetCategoryByIdWithProductsResponse;
+import com.etiya.ecommercedemo4.core.util.exceptions.BusinessException;
 import com.etiya.ecommercedemo4.core.util.mapping.ModelMapperService;
 import com.etiya.ecommercedemo4.core.util.results.DataResult;
 import com.etiya.ecommercedemo4.core.util.results.Result;
@@ -40,6 +41,7 @@ public class CategoryManager implements ICategoryService {
     public Result add(AddCategoryRequest addCategoryRequest) {
         checkIfCategoryNameExists(addCategoryRequest.getName());
         Category category = this.modelMapperService.forRequest().map(addCategoryRequest, Category.class);
+        category.setId(0);
         this.categoryRepository.save(category);
 
         return new SuccessResult(Messages.SuccessMessages.Add);
@@ -56,7 +58,7 @@ public class CategoryManager implements ICategoryService {
     private void checkIfCategoryNameExists(String name){
         boolean isExists = this.categoryRepository.existsCategoryByNameIgnoreCase(name);
         if(isExists){
-            throw new RuntimeException(Messages.Category.CategoryExists);
+            throw new BusinessException(Messages.Category.CategoryExists);
         }
     }
 }

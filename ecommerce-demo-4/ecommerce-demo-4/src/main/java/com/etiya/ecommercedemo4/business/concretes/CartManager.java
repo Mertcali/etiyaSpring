@@ -37,6 +37,7 @@ public class CartManager implements ICartService {
     @Override
     public Result add(AddCartRequest addCartRequest) {
         Cart cart = this.modelMapperService.forRequest().map(addCartRequest,Cart.class);
+        cart.setId(0);
         this.cartRepository.save(cart);
         return new SuccessResult(Messages.SuccessMessages.Add);
     }

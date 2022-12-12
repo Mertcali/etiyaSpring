@@ -43,6 +43,7 @@ public class DistrictManager implements IDistrictService {
     public Result add(AddDistrictRequest addDistrictRequest) {
 
         District district = this.modelMapperService.forRequest().map(addDistrictRequest,District.class);
+        district.setId(0);
         this.districtRepository.save(district);
 
 

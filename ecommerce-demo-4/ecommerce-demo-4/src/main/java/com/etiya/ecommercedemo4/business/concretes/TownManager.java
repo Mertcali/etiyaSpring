@@ -43,6 +43,7 @@ public class TownManager implements ITownService {
          */
 
         Town town = this.modelMapperService.forRequest().map(addTownRequest,Town.class);
+        town.setId(0);
         this.townRepository.save(town);
 
         return new SuccessResult(Messages.SuccessMessages.Add);

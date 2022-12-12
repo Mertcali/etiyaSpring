@@ -38,6 +38,7 @@ public class StreetManager implements IStreetService {
 
 
         Street street = this.modelMapperService.forRequest().map(addStreetRequest,Street.class);
+        street.setId(0);
         this.streetRepository.save(street);
 
 

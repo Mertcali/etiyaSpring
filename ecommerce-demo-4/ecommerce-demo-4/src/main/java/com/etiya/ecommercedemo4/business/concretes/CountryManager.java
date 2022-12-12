@@ -52,6 +52,7 @@ public class CountryManager implements ICountryService {
     public Result add(AddCountryRequest addCountryRequest) {
 
         Country country = this.modelMapperService.forRequest().map(addCountryRequest,Country.class);
+        country.setId(0);
         this.countryRepository.save(country);
 
         return new SuccessResult(Messages.SuccessMessages.Add);

@@ -43,6 +43,7 @@ public class CityManager implements ICityService {
     public Result add(AddCityRequest addCityRequest) {
 
         City city = this.modelMapperService.forRequest().map(addCityRequest,City.class);
+        city.setId(0);
         this.cityRepository.save(city);
 
         return new SuccessResult(Messages.SuccessMessages.Add);

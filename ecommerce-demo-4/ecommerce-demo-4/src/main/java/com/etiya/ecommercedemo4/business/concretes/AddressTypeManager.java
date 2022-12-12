@@ -39,6 +39,7 @@ public class AddressTypeManager implements IAddressTypeService {
     public Result add(AddAddressTypeRequest addAddressTypeRequest) {
 
         AddressType addressType = this.modelMapperService.forRequest().map(addAddressTypeRequest,AddressType.class);
+        addressType.setId(0);
         this.addressTypeRepository.save(addressType);
         return new SuccessResult(Messages.SuccessMessages.Add);
 

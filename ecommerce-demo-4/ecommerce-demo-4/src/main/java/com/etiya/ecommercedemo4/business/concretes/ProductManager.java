@@ -6,6 +6,7 @@ import com.etiya.ecommercedemo4.business.abstracts.IProductService;
 import com.etiya.ecommercedemo4.business.constants.Messages;
 import com.etiya.ecommercedemo4.business.dtos.request.product.AddProductRequest;
 import com.etiya.ecommercedemo4.business.dtos.response.product.AddProductResponse;
+import com.etiya.ecommercedemo4.core.util.exceptions.BusinessException;
 import com.etiya.ecommercedemo4.core.util.mapping.ModelMapperService;
 import com.etiya.ecommercedemo4.core.util.results.DataResult;
 import com.etiya.ecommercedemo4.core.util.results.Result;
@@ -72,18 +73,16 @@ public class ProductManager implements IProductService {
     @Override
     public Result add(AddProductRequest addProductRequest) {
 
-
-        checkIfCategoryExists(addProductRequest.getCategoryId());
-        Category category = this.categoryService.getById(addProductRequest.getCategoryId()).getData();
+        //checkIfCategoryExists(addProductRequest.getProductCategoryId());
+        //Category category = this.categoryService.getById(addProductRequest.getProductCategoryId()).getData();
 
         Product product = this.modelMapperService.forRequest().map(addProductRequest,Product.class);
 
-        Product savedProduct = this.productRepository.save(product);
-        AddProductResponse response = this.modelMapperService.forResponse().map(savedProduct,AddProductResponse.class);
+        checkIfCategoryExists(addProductRequest.getProductCategoryId());
 
-        response.setCategory(category);
-        System.out.println("xxxxx");
-
+        product.setId(0);
+        this.productRepository.save(product);
+       // AddProductResponse response = this.modelMapperService.forResponse().map(savedProduct,AddProductResponse.class);
         return new SuccessResult(Messages.SuccessMessages.Add);
 
     }
@@ -91,7 +90,7 @@ public class ProductManager implements IProductService {
     private void checkIfCategoryExists(int id){
         Category category = this.categoryService.getById(id).getData();
         if(category==null){
-            throw new RuntimeException(Messages.Category.CategoryDoesNotExist);
+            throw new BusinessException(Messages.Category.CategoryDoesNotExist);
         }
     }
 

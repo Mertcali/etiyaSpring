@@ -43,6 +43,7 @@ public class ProductCategoriesManager implements IProductCategoriesService {
     public Result add(AddProductCategoriesRequest addProductCategoriesRequest) {
 
         ProductCategories productCategories = this.modelMapperService.forRequest().map(addProductCategoriesRequest,ProductCategories.class);
+        productCategories.setId(0);
         this.productCategoriesRepository.save(productCategories);
 
         return new SuccessResult(Messages.SuccessMessages.Add);

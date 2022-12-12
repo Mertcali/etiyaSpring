@@ -36,6 +36,7 @@ public class SupplierManager implements ISupplierService {
     @Override
     public Result add(AddSupplierRequest addSupplierRequest) {
         Supplier supplier = this.modelMapperService.forRequest().map(addSupplierRequest,Supplier.class);
+        supplier.setId(0);
         this.supplierRepository.save(supplier);
 
         return new SuccessResult(Messages.SuccessMessages.Add);

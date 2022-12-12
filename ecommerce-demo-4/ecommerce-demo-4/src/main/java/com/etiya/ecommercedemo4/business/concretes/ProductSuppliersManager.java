@@ -36,6 +36,7 @@ public class ProductSuppliersManager implements IProductSuppliersService {
     public Result add(AddProductSuppliersRequest addProductSuppliersRequest) {
 
         ProductSuppliers productSuppliers = this.modelMapperService.forRequest().map(addProductSuppliersRequest,ProductSuppliers.class);
+        productSuppliers.setId(0);
         this.productSuppliersRepository.save(productSuppliers);
         return new SuccessResult(Messages.SuccessMessages.Add);
 
