@@ -3,6 +3,7 @@ package com.etiya.ecommercedemo4.business.concretes;
 import com.etiya.ecommercedemo4.business.abstracts.IInvoiceService;
 import com.etiya.ecommercedemo4.business.constants.Messages;
 import com.etiya.ecommercedemo4.business.dtos.request.invoices.AddInvoiceRequest;
+import com.etiya.ecommercedemo4.business.dtos.response.invoices.GetInvoiceDto;
 import com.etiya.ecommercedemo4.core.util.mapping.ModelMapperService;
 import com.etiya.ecommercedemo4.core.util.results.DataResult;
 import com.etiya.ecommercedemo4.core.util.results.Result;
@@ -48,5 +49,11 @@ public class InvoiceManager implements IInvoiceService {
     public DataResult<Invoice> getById(int id) {
         Invoice response = this.invoiceRepository.findById(id).orElseThrow();
         return new SuccessDataResult<Invoice>(response,Messages.SuccessMessages.ListById);
+    }
+
+    @Override
+    public DataResult<GetInvoiceDto> getInvoiceDto(int id) {
+        GetInvoiceDto responseDto = this.invoiceRepository.getInvoiceDto(id);
+        return new SuccessDataResult<GetInvoiceDto>(responseDto,Messages.SuccessMessages.ListById);
     }
 }
