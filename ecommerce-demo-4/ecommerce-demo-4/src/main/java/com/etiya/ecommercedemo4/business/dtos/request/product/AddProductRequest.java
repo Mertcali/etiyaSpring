@@ -27,6 +27,6 @@ public class AddProductRequest {
     private int stock;
 
     //@Positive(message = "MUST BE POSITIVE")
-    private int productCategoryId;
+    //private int productCategoryId;
 
 }

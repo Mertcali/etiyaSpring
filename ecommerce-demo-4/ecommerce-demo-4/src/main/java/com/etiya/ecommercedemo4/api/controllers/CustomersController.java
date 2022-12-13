@@ -2,7 +2,9 @@ package com.etiya.ecommercedemo4.api.controllers;
 
 import com.etiya.ecommercedemo4.business.abstracts.ICustomerService;
 import com.etiya.ecommercedemo4.business.constants.Paths;
+import com.etiya.ecommercedemo4.business.dtos.request.customers.AddCustomerRequest;
 import com.etiya.ecommercedemo4.core.util.results.DataResult;
+import com.etiya.ecommercedemo4.core.util.results.Result;
 import com.etiya.ecommercedemo4.entities.concretes.Customer;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -53,5 +55,10 @@ public class CustomersController {
     @GetMapping("/findByCustomerNumber")
     public DataResult<Customer> getByCustomerNumber(@RequestParam("customerNumber") String customerNumber){
         return this.customerService.getByCustomerNumber(customerNumber);
+    }
+
+    @PostMapping("/add")
+    public Result add(@RequestBody AddCustomerRequest addCustomerRequest){
+        return this.customerService.add(addCustomerRequest);
     }
 }

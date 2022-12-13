@@ -2,9 +2,12 @@ package com.etiya.ecommercedemo4.business.concretes;
 
 import com.etiya.ecommercedemo4.business.abstracts.ICustomerService;
 import com.etiya.ecommercedemo4.business.constants.Messages;
+import com.etiya.ecommercedemo4.business.dtos.request.customers.AddCustomerRequest;
 import com.etiya.ecommercedemo4.core.util.mapping.ModelMapperService;
 import com.etiya.ecommercedemo4.core.util.results.DataResult;
+import com.etiya.ecommercedemo4.core.util.results.Result;
 import com.etiya.ecommercedemo4.core.util.results.SuccessDataResult;
+import com.etiya.ecommercedemo4.core.util.results.SuccessResult;
 import com.etiya.ecommercedemo4.entities.concretes.Customer;
 import com.etiya.ecommercedemo4.repository.ICustomerRepository;
 import lombok.AllArgsConstructor;
@@ -50,6 +53,10 @@ public class CustomerManager implements ICustomerService {
         return new SuccessDataResult<Customer>(response,Messages.SuccessMessages.Succeeded);
     }
 
-
-
+    @Override
+    public Result add(AddCustomerRequest addCustomerRequest) {
+        Customer customer = this.modelMapperService.forRequest().map(addCustomerRequest,Customer.class);
+        this.customerRepository.save(customer);
+        return new SuccessResult(Messages.SuccessMessages.Add);
+    }
 }

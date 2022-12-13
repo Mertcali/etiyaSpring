@@ -1,24 +1,24 @@
-package com.etiya.ecommercedemo4.business.dtos.request.cart;
+package com.etiya.ecommercedemo4.business.dtos.request.order;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.PositiveOrZero;
 
 @AllArgsConstructor
+@NoArgsConstructor
 @Getter
 @Setter
-public class AddCartRequest {
+public class AddOrderRequest {
 
-    @NotNull
-    @PositiveOrZero
-    private int quantity;
     @NotNull
     @Positive
-    private int customerId;
-
+    private int paymentId;
+    @NotNull
+    @Positive
+    private int orderDetailId;
 }

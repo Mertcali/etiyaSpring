@@ -1,6 +1,5 @@
 package com.etiya.ecommercedemo4.entities.concretes;
 
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -8,15 +7,14 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.List;
 
-@Entity
 @Getter
 @Setter
+@Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "product_suppliers")
-public class ProductSuppliers {
+@Table(name = "product_supplier_cart")
+public class ProductSupplierCart {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,19 +22,17 @@ public class ProductSuppliers {
     private int id;
 
     @ManyToOne
-    @JoinColumn(name = "product_id")
-   // @JsonIgnoreProperties("productSuppliers")
+    @JoinColumn(name = "cart_id")
     @JsonIgnore
-    private Product product;
+    private Cart cart;
 
     @ManyToOne
-    @JoinColumn(name = "supplier_id")
-   // @JsonIgnoreProperties("productSuppliers")
+    @JoinColumn(name = "product_suppliers_id")
     @JsonIgnore
-    private Supplier supplier;
+    private ProductSuppliers productSuppliers;
 
-    @OneToMany(mappedBy = "productSuppliers")
-  //  @JsonIgnoreProperties("productSuppliers")
+    @OneToOne(mappedBy = "productSupplierCart")
     @JsonIgnore
-    private List<OrderDetail> orderDetails;
+    private OrderDetail orderDetail;
+
 }

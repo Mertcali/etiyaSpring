@@ -6,14 +6,18 @@ import org.modelmapper.ModelMapper;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.servlet.LocaleResolver;
+import org.springframework.web.servlet.i18n.AcceptHeaderLocaleResolver;
 
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.NoSuchElementException;
 
@@ -28,6 +32,25 @@ public class EcommerceDemo4Application {
 	@Bean
 	public ModelMapper getModelMapper(){
 		return new ModelMapper();
+	}
+
+	@Bean
+	public ResourceBundleMessageSource bundleMessageSource(){
+		//veritabanı veya dosyadan çekme.
+		ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
+		//konfig
+		messageSource.setBasename("messages");
+
+		return messageSource;
+	}
+
+	//Kullanıcıdan dil tercihini header alanında al.
+	//Accept-Language
+	@Bean
+	public LocaleResolver localeResolver(){
+		AcceptHeaderLocaleResolver localeResolver = new AcceptHeaderLocaleResolver();
+		localeResolver.setDefaultLocale(Locale.US);
+		return localeResolver;
 	}
 
 	@ExceptionHandler

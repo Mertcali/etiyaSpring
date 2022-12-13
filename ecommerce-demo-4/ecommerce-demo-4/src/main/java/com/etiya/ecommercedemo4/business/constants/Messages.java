@@ -7,6 +7,7 @@ public class Messages {
 
     public static class User{
         public static final String UserDoesNotExist = "USER_DOES_NOT_EXIST";
+        public static final String UserExists = "USER_EXISTS";
     }
 
     public static class Category{
@@ -14,6 +15,12 @@ public class Messages {
         public static final String CategoryDoesNotExist = "CATEGORY_DOES_NOT_EXIST";
     }
 
+    public static class ProductSupplier{
+        public static final String ProductSupplierDoesNotExist = "PRODUCT_SUPPLIER_DOES_NOT_EXIST";
+    }
+    public static class Order{
+        public static final String OrderDoesNotExist = "ORDER_DOES_NOT_EXIST";
+    }
     public static class SuccessMessages {
         public static final String Add = "ENTITY_ADDED";
         public static final String ListAll = "ALL_ENTITIES_LISTED";
@@ -21,6 +28,7 @@ public class Messages {
         public static final String ListByName ="ENTITY_LISTED_BY_NAME";
         public static final String Succeeded ="REQUEST_SUCCEEDED";
     }
+
 
 
 

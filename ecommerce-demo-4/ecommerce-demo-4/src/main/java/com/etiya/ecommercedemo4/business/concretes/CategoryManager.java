@@ -13,6 +13,8 @@ import com.etiya.ecommercedemo4.core.util.results.SuccessResult;
 import com.etiya.ecommercedemo4.entities.concretes.Category;
 import com.etiya.ecommercedemo4.repository.ICategoryRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,6 +25,7 @@ public class CategoryManager implements ICategoryService {
 
     private ICategoryRepository categoryRepository;
     private ModelMapperService modelMapperService;
+    private MessageSource messageSource;
 
 
     @Override
@@ -58,7 +61,9 @@ public class CategoryManager implements ICategoryService {
     private void checkIfCategoryNameExists(String name){
         boolean isExists = this.categoryRepository.existsCategoryByNameIgnoreCase(name);
         if(isExists){
-            throw new BusinessException(Messages.Category.CategoryExists);
+            throw new
+                    BusinessException(messageSource.getMessage(Messages.Category.CategoryExists,
+                    null, LocaleContextHolder.getLocale()));
         }
     }
 }

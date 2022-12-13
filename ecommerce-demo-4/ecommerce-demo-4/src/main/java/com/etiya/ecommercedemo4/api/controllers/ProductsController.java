@@ -8,6 +8,10 @@ import com.etiya.ecommercedemo4.core.util.results.DataResult;
 import com.etiya.ecommercedemo4.core.util.results.Result;
 import com.etiya.ecommercedemo4.entities.concretes.Product;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -53,6 +57,18 @@ public class ProductsController {
     @PostMapping("/add")
     public ResponseEntity<Result> add(@RequestBody @Valid AddProductRequest addProductRequest){
         return  new ResponseEntity<Result>(this.productService.add(addProductRequest), HttpStatus.CREATED);
+    }
+
+    @GetMapping("/getWithPagination")
+    public Page<Product> getWithPagination(@RequestParam("page") int page, @RequestParam("pageSize") int pageSize){
+        Pageable pageable = PageRequest.of(page,pageSize);
+        return this.productService.findAllWithPagination(pageable);
+    }
+
+    @GetMapping("/getWithSlice")
+    public Slice<Product> getWithSlice(@RequestParam("page") int page, @RequestParam("pageSize") int pageSize){
+        Pageable pageable = PageRequest.of(page,pageSize);
+        return this.productService.findAllWithSlice(pageable);
     }
 
 }

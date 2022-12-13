@@ -8,6 +8,7 @@ import com.etiya.ecommercedemo4.core.util.results.Result;
 import com.etiya.ecommercedemo4.entities.concretes.Cart;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -31,7 +32,7 @@ public class CartsController {
     }
 
     @PostMapping("/add")
-    public Result add(AddCartRequest addCartRequest){
+    public Result add(@RequestBody @Valid AddCartRequest addCartRequest){
         return this.cartService.add(addCartRequest);
     }
 }

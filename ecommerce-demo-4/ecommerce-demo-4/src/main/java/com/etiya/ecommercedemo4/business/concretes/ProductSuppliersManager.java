@@ -41,4 +41,10 @@ public class ProductSuppliersManager implements IProductSuppliersService {
         return new SuccessResult(Messages.SuccessMessages.Add);
 
     }
+
+    @Override
+    public DataResult<ProductSuppliers> getById(int id) {
+        ProductSuppliers response =this.productSuppliersRepository.findById(id).orElseThrow();
+        return new SuccessDataResult<ProductSuppliers>(response,Messages.SuccessMessages.ListById);
+    }
 }

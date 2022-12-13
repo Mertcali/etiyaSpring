@@ -17,6 +17,9 @@ import com.etiya.ecommercedemo4.entities.concretes.Product;
 import com.etiya.ecommercedemo4.repository.IProductRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -73,18 +76,24 @@ public class ProductManager implements IProductService {
     @Override
     public Result add(AddProductRequest addProductRequest) {
 
-        //checkIfCategoryExists(addProductRequest.getProductCategoryId());
-        //Category category = this.categoryService.getById(addProductRequest.getProductCategoryId()).getData();
-
+        //TODO : CHECKIF TAŞINACAK.
         Product product = this.modelMapperService.forRequest().map(addProductRequest,Product.class);
-
-        checkIfCategoryExists(addProductRequest.getProductCategoryId());
-
+        //checkIfCategoryExists(addProductRequest.getProductCategoryId());
         product.setId(0);
         this.productRepository.save(product);
-       // AddProductResponse response = this.modelMapperService.forResponse().map(savedProduct,AddProductResponse.class);
+
         return new SuccessResult(Messages.SuccessMessages.Add);
 
+    }
+
+    @Override
+    public Page<Product> findAllWithPagination(Pageable pageable) {
+        return this.productRepository.findAll(pageable);
+    }
+
+    @Override
+    public Slice<Product> findAllWithSlice(Pageable pageable) {
+        return this.productRepository.getAllWithSlice(pageable);
     }
 
     private void checkIfCategoryExists(int id){

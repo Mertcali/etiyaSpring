@@ -14,5 +14,7 @@ public interface IProductSuppliersService {
     Result add(AddProductSuppliersRequest addProductSuppliersRequest);
     DataResult<List<ProductSuppliers>> getAll();
 
+    DataResult<ProductSuppliers> getById(int id);
+
 
 }
