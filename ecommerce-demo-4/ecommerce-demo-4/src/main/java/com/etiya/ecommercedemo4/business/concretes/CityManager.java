@@ -6,6 +6,7 @@ import com.etiya.ecommercedemo4.business.constants.Messages;
 import com.etiya.ecommercedemo4.business.dtos.request.city.AddCityRequest;
 import com.etiya.ecommercedemo4.business.dtos.response.city.GetAllCitiesResponse;
 import com.etiya.ecommercedemo4.core.util.mapping.ModelMapperService;
+import com.etiya.ecommercedemo4.core.util.messages.IMessagesService;
 import com.etiya.ecommercedemo4.core.util.results.DataResult;
 import com.etiya.ecommercedemo4.core.util.results.Result;
 import com.etiya.ecommercedemo4.core.util.results.SuccessDataResult;
@@ -13,6 +14,8 @@ import com.etiya.ecommercedemo4.core.util.results.SuccessResult;
 import com.etiya.ecommercedemo4.entities.concretes.City;
 import com.etiya.ecommercedemo4.repository.ICityRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -25,18 +28,19 @@ public class CityManager implements ICityService {
     private ICityRepository cityRepository;
     private ICountryService countryService;
     private ModelMapperService modelMapperService;
+    private IMessagesService messagesService;
 
 
     @Override
     public DataResult<List<City>> getAll() {
         List<City> response = this.cityRepository.findAll();
-        return new SuccessDataResult<List<City>>(response, Messages.SuccessMessages.ListAll);
+        return new SuccessDataResult<List<City>>(response,messagesService.getMessage(Messages.SuccessMessages.ListAll));
     }
 
     @Override
     public DataResult<City> getById(int id) {
         City response = this.cityRepository.findById(id).orElseThrow();
-        return new SuccessDataResult<City>(response, Messages.SuccessMessages.ListById);
+        return new SuccessDataResult<City>(response,messagesService.getMessage( Messages.SuccessMessages.ListById));
     }
 
     @Override
@@ -46,7 +50,7 @@ public class CityManager implements ICityService {
         city.setId(0);
         this.cityRepository.save(city);
 
-        return new SuccessResult(Messages.SuccessMessages.Add);
+        return new SuccessResult(messagesService.getMessage(Messages.SuccessMessages.Add));
 
 
     }
@@ -64,12 +68,17 @@ public class CityManager implements ICityService {
             responseList.add(response);
         }
 
-        return new SuccessDataResult<List<GetAllCitiesResponse>>(responseList, Messages.SuccessMessages.ListAll);
+        return new SuccessDataResult<List<GetAllCitiesResponse>>(responseList,messagesService.getMessage( Messages.SuccessMessages.ListAll));
+    }
+
+    @Override
+    public Page<City> getAllWithPagination(Pageable pageable) {
+        return this.cityRepository.findAll(pageable);
     }
 
     @Override
     public DataResult<List<GetAllCitiesResponse>> getAllDto() {
         List<GetAllCitiesResponse> response = this.cityRepository.getAllDto();
-        return new SuccessDataResult<List<GetAllCitiesResponse>>(response,Messages.SuccessMessages.Succeeded);
+        return new SuccessDataResult<List<GetAllCitiesResponse>>(response,messagesService.getMessage(Messages.SuccessMessages.Succeeded));
     }
 }

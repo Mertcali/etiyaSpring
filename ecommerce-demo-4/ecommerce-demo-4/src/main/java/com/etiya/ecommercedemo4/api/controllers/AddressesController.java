@@ -10,6 +10,9 @@ import com.etiya.ecommercedemo4.core.util.results.Result;
 import com.etiya.ecommercedemo4.entities.concretes.Address;
 import com.etiya.ecommercedemo4.entities.concretes.Country;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -50,6 +53,14 @@ public class AddressesController {
     public DataResult<GetAddressDto> getAddressDto(@PathVariable int id){
         return this.addressService.getAddressDto(id);
     }
+
+    @GetMapping("/getAllWithPagination")
+    public Page<Address> getAllWithPagination(@RequestParam("page") int page, @RequestParam("pageSize") int pageSize){
+        Pageable pageable = PageRequest.of(page,pageSize);
+        return  this.addressService.getAllWithPagination(pageable);
+    }
+
+
 
  /*   @RequestMapping(value = "/id/{id}", method = RequestMethod.GET)
     public Country getCountryWithCityId(@PathVariable int id){

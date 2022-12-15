@@ -1,6 +1,8 @@
 package com.etiya.ecommercedemo4.repository;
 
 import com.etiya.ecommercedemo4.entities.concretes.Customer;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -16,5 +18,8 @@ public interface ICustomerRepository extends JpaRepository<Customer,Integer> {
     List<Customer> findAllCustomersLike(String customerNumber);
     Customer findByCustomerNumber(String customerNumber);
 
+    @Query("Select c from Customer c")
+
+    Slice<Customer> findAllWithSlice(Pageable pageable);
 
 }

@@ -6,7 +6,11 @@ import com.etiya.ecommercedemo4.business.dtos.request.productSuppliers.AddProduc
 import com.etiya.ecommercedemo4.business.dtos.response.productSuppliers.AddProductSuppliersResponse;
 import com.etiya.ecommercedemo4.core.util.results.DataResult;
 import com.etiya.ecommercedemo4.core.util.results.Result;
+import com.etiya.ecommercedemo4.entities.concretes.Address;
 import com.etiya.ecommercedemo4.entities.concretes.ProductSuppliers;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -29,5 +33,10 @@ public class ProductSuppliersController {
     @PostMapping("/add")
     public Result add(@RequestBody AddProductSuppliersRequest addProductSuppliersRequest){
         return this.productSuppliersService.add(addProductSuppliersRequest);
+    }
+    @GetMapping("/getAllWithPagination")
+    public Page<ProductSuppliers> getAllWithPagination(@RequestParam("page") int page, @RequestParam("pageSize") int pageSize){
+        Pageable pageable = PageRequest.of(page,pageSize);
+        return  this.productSuppliersService.getAllWithPagination(pageable);
     }
 }

@@ -7,8 +7,12 @@ import com.etiya.ecommercedemo4.business.dtos.response.category.AddCategoryRespo
 import com.etiya.ecommercedemo4.business.dtos.response.category.GetCategoryByIdWithProductsResponse;
 import com.etiya.ecommercedemo4.core.util.results.DataResult;
 import com.etiya.ecommercedemo4.core.util.results.Result;
+import com.etiya.ecommercedemo4.entities.concretes.Address;
 import com.etiya.ecommercedemo4.entities.concretes.Category;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -46,5 +50,10 @@ public class CategoriesController {
     @RequestMapping(value = "/getAllDto/{id}", method = RequestMethod.GET)
     public DataResult<List<GetCategoryByIdWithProductsResponse>> getAllDto(@PathVariable int id){
         return this.categoryService.getAllDto(id);
+    }
+    @GetMapping("/getAllWithPagination")
+    public Page<Category> getAllWithPagination(@RequestParam("page") int page, @RequestParam("pageSize") int pageSize){
+        Pageable pageable = PageRequest.of(page,pageSize);
+        return  this.categoryService.getAllWithPagination(pageable);
     }
 }

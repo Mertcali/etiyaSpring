@@ -5,7 +5,11 @@ import com.etiya.ecommercedemo4.business.dtos.request.invoices.AddInvoiceRequest
 import com.etiya.ecommercedemo4.business.dtos.response.invoices.GetInvoiceDto;
 import com.etiya.ecommercedemo4.core.util.results.DataResult;
 import com.etiya.ecommercedemo4.core.util.results.Result;
+import com.etiya.ecommercedemo4.entities.concretes.Address;
 import com.etiya.ecommercedemo4.entities.concretes.Invoice;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -44,5 +48,10 @@ public class InvoicesController {
     @RequestMapping(value = "/getByInvoiceByIdDto/{id}", method = RequestMethod.GET)
     public DataResult<GetInvoiceDto> getInvoiceDto(@PathVariable int id){
         return this.invoiceService.getInvoiceDto(id);
+    }
+    @GetMapping("/getAllWithPagination")
+    public Page<Invoice> getAllWithPagination(@RequestParam("page") int page, @RequestParam("pageSize") int pageSize){
+        Pageable pageable = PageRequest.of(page,pageSize);
+        return  this.invoiceService.getAllWithPagination(pageable);
     }
 }

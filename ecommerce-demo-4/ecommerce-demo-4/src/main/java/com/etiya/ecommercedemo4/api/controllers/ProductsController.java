@@ -68,7 +68,7 @@ public class ProductsController {
     @GetMapping("/getWithSlice")
     public Slice<Product> getWithSlice(@RequestParam("page") int page, @RequestParam("pageSize") int pageSize){
         Pageable pageable = PageRequest.of(page,pageSize);
-        return this.productService.findAllWithSlice(pageable);
+        return this.productService.getAllWithSlice(pageable);
     }
 
 }

@@ -6,8 +6,12 @@ import com.etiya.ecommercedemo4.business.dtos.request.district.AddDistrictReques
 import com.etiya.ecommercedemo4.business.dtos.response.district.AddDistrictResponse;
 import com.etiya.ecommercedemo4.core.util.results.DataResult;
 import com.etiya.ecommercedemo4.core.util.results.Result;
+import com.etiya.ecommercedemo4.entities.concretes.Address;
 import com.etiya.ecommercedemo4.entities.concretes.District;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -38,4 +42,9 @@ public class DistrictsController {
         return this.districtService.add(addDistrictRequest);
     }
 
+    @GetMapping("/getAllWithPagination")
+    public Page<District> getAllWithPagination(@RequestParam("page") int page, @RequestParam("pageSize") int pageSize){
+        Pageable pageable = PageRequest.of(page,pageSize);
+        return  this.districtService.getAllWithPagination(pageable);
+    }
 }

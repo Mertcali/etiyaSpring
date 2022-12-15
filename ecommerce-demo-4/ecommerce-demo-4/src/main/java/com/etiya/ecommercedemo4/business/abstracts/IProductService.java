@@ -21,7 +21,8 @@ public interface IProductService {
 
     Page<Product> findAllWithPagination(Pageable pageable);
 
-    Slice<Product> findAllWithSlice(Pageable pageable);
+    Slice<Product> getAllWithSlice(Pageable pageable);
+
 
 
 }

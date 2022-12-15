@@ -4,6 +4,8 @@ import com.etiya.ecommercedemo4.business.dtos.request.customers.AddCustomerReque
 import com.etiya.ecommercedemo4.core.util.results.DataResult;
 import com.etiya.ecommercedemo4.core.util.results.Result;
 import com.etiya.ecommercedemo4.entities.concretes.Customer;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 
 import java.util.Date;
 import java.util.List;
@@ -20,4 +22,5 @@ public interface ICustomerService {
 
     DataResult<Customer> getByCustomerNumber(String customerNumber);
 
+    Slice<Customer> getAllWithSlice(Pageable pageable);
 }

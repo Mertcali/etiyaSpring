@@ -6,8 +6,12 @@ import com.etiya.ecommercedemo4.business.dtos.request.country.AddCountryRequest;
 import com.etiya.ecommercedemo4.business.dtos.response.country.AddCountryResponse;
 import com.etiya.ecommercedemo4.core.util.results.DataResult;
 import com.etiya.ecommercedemo4.core.util.results.Result;
+import com.etiya.ecommercedemo4.entities.concretes.Address;
 import com.etiya.ecommercedemo4.entities.concretes.Country;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -48,5 +52,10 @@ public class CountriesController {
     @PostMapping("/add")
     public ResponseEntity<Result> add(AddCountryRequest addCountryRequest){
         return new ResponseEntity<Result>(this.countryService.add(addCountryRequest), HttpStatus.CREATED);
+    }
+    @GetMapping("/getAllWithPagination")
+    public Page<Country> getAllWithPagination(@RequestParam("page") int page, @RequestParam("pageSize") int pageSize){
+        Pageable pageable = PageRequest.of(page,pageSize);
+        return  this.countryService.getAllWithPagination(pageable);
     }
 }

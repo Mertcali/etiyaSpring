@@ -6,7 +6,11 @@ import com.etiya.ecommercedemo4.business.dtos.request.street.AddStreetRequest;
 import com.etiya.ecommercedemo4.business.dtos.response.street.AddStreetResponse;
 import com.etiya.ecommercedemo4.core.util.results.DataResult;
 import com.etiya.ecommercedemo4.core.util.results.Result;
+import com.etiya.ecommercedemo4.entities.concretes.Address;
 import com.etiya.ecommercedemo4.entities.concretes.Street;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -33,5 +37,10 @@ public class StreetsController {
     @GetMapping("{id}")
     public DataResult<Street> getById(@PathVariable int id){
         return this.streetService.getById(id);
+    }
+    @GetMapping("/getAllWithPagination")
+    public Page<Street> getAllWithPagination(@RequestParam("page") int page, @RequestParam("pageSize") int pageSize){
+        Pageable pageable = PageRequest.of(page,pageSize);
+        return  this.streetService.getAllWithPagination(pageable);
     }
 }

@@ -5,8 +5,12 @@ import com.etiya.ecommercedemo4.business.constants.Paths;
 import com.etiya.ecommercedemo4.business.dtos.request.order.AddOrderRequest;
 import com.etiya.ecommercedemo4.core.util.results.DataResult;
 import com.etiya.ecommercedemo4.core.util.results.Result;
+import com.etiya.ecommercedemo4.entities.concretes.Address;
 import com.etiya.ecommercedemo4.entities.concretes.Order;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -37,5 +41,9 @@ public class OrdersController {
     public Result add(@RequestBody @Valid AddOrderRequest addOrderRequest){
         return this.orderService.add(addOrderRequest);
     }
-
+    @GetMapping("/getAllWithPagination")
+    public Page<Order> getAllWithPagination(@RequestParam("page") int page, @RequestParam("pageSize") int pageSize){
+        Pageable pageable = PageRequest.of(page,pageSize);
+        return  this.orderService.getAllWithPagination(pageable);
+    }
 }

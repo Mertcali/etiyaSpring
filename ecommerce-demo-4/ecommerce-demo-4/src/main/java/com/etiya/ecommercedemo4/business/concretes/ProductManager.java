@@ -8,6 +8,7 @@ import com.etiya.ecommercedemo4.business.dtos.request.product.AddProductRequest;
 import com.etiya.ecommercedemo4.business.dtos.response.product.AddProductResponse;
 import com.etiya.ecommercedemo4.core.util.exceptions.BusinessException;
 import com.etiya.ecommercedemo4.core.util.mapping.ModelMapperService;
+import com.etiya.ecommercedemo4.core.util.messages.IMessagesService;
 import com.etiya.ecommercedemo4.core.util.results.DataResult;
 import com.etiya.ecommercedemo4.core.util.results.Result;
 import com.etiya.ecommercedemo4.core.util.results.SuccessDataResult;
@@ -33,6 +34,8 @@ public class ProductManager implements IProductService {
     private IProductCategoriesService productCategoriesService;
     private ModelMapperService modelMapperService;
 
+    private IMessagesService messagesService;
+
     public ProductManager(IProductRepository productRepository,
                           ICategoryService categoryService,
                           @Lazy IProductCategoriesService productCategoriesService,
@@ -46,31 +49,31 @@ public class ProductManager implements IProductService {
     @Override
     public DataResult<List<Product>> getAll() {
         List<Product> response = productRepository.findAll();
-        return new SuccessDataResult<List<Product>>(response,Messages.SuccessMessages.ListAll);
+        return new SuccessDataResult<List<Product>>(response,messagesService.getMessage(Messages.SuccessMessages.ListAll));
     }
 
     @Override
     public DataResult<Product> getById(int id) {
         Product response = productRepository.findById(id).orElseThrow();
-        return new SuccessDataResult<Product>(response,Messages.SuccessMessages.ListById);
+        return new SuccessDataResult<Product>(response,messagesService.getMessage(Messages.SuccessMessages.ListById));
     }
 
     @Override
     public DataResult<List<Product>> getAllByStock(int stock) {
         List<Product> response = this.productRepository.findAllProductsByStockGreaterThanOrderByStockDesc(stock);
-        return new SuccessDataResult<List<Product>>(response,Messages.SuccessMessages.ListAll);
+        return new SuccessDataResult<List<Product>>(response,messagesService.getMessage(Messages.SuccessMessages.ListAll));
     }
 
     @Override
     public DataResult<Product> getByName(String name) {
         Product response = this.productRepository.findByName(name);
-        return new SuccessDataResult<Product>(response,Messages.SuccessMessages.ListByName);
+        return new SuccessDataResult<Product>(response,messagesService.getMessage(Messages.SuccessMessages.ListByName));
     }
 
     @Override
     public DataResult<List<Product>> getAllProductsUnitPriceBetween(double start, double end) {
         List<Product> response = this.productRepository.findAllProductsUnitPriceBetween(start,end);
-        return new SuccessDataResult<List<Product>>(response,Messages.SuccessMessages.Succeeded);
+        return new SuccessDataResult<List<Product>>(response,messagesService.getMessage(Messages.SuccessMessages.Succeeded));
     }
 
     @Override
@@ -82,7 +85,7 @@ public class ProductManager implements IProductService {
         product.setId(0);
         this.productRepository.save(product);
 
-        return new SuccessResult(Messages.SuccessMessages.Add);
+        return new SuccessResult(messagesService.getMessage(Messages.SuccessMessages.Add));
 
     }
 
@@ -92,14 +95,14 @@ public class ProductManager implements IProductService {
     }
 
     @Override
-    public Slice<Product> findAllWithSlice(Pageable pageable) {
-        return this.productRepository.getAllWithSlice(pageable);
+    public Slice<Product> getAllWithSlice(Pageable pageable) {
+        return this.productRepository.findAllWithSlice(pageable);
     }
 
     private void checkIfCategoryExists(int id){
         Category category = this.categoryService.getById(id).getData();
         if(category==null){
-            throw new BusinessException(Messages.Category.CategoryDoesNotExist);
+            throw new BusinessException(messagesService.getMessage(Messages.Category.CategoryDoesNotExist));
         }
     }
 

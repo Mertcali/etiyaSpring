@@ -8,6 +8,9 @@ import com.etiya.ecommercedemo4.core.util.results.Result;
 import com.etiya.ecommercedemo4.entities.concretes.Customer;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 
@@ -60,5 +63,11 @@ public class CustomersController {
     @PostMapping("/add")
     public Result add(@RequestBody AddCustomerRequest addCustomerRequest){
         return this.customerService.add(addCustomerRequest);
+    }
+
+    @GetMapping("/getAllWithSlice")
+    public Slice<Customer> getAllWithSlice (@RequestParam("page") int page,@RequestParam("pageSize") int pageSize){
+        Pageable pageable = PageRequest.of(page,pageSize);
+        return customerService.getAllWithSlice(pageable);
     }
 }

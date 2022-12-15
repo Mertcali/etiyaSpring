@@ -20,7 +20,7 @@ public interface IProductRepository extends JpaRepository<Product,Integer> {
     List<Product> findAllProductsUnitPriceBetween(double start, double end);
 
     @Query("select p from Product p ")
-    Slice<Product> getAllWithSlice(Pageable pageable);
+    Slice<Product> findAllWithSlice(Pageable pageable);
 
 
 

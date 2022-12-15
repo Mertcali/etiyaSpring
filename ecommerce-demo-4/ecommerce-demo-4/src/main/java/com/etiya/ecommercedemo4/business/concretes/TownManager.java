@@ -6,6 +6,7 @@ import com.etiya.ecommercedemo4.business.constants.Messages;
 import com.etiya.ecommercedemo4.business.dtos.request.town.AddTownRequest;
 import com.etiya.ecommercedemo4.business.dtos.response.town.AddTownResponse;
 import com.etiya.ecommercedemo4.core.util.mapping.ModelMapperService;
+import com.etiya.ecommercedemo4.core.util.messages.IMessagesService;
 import com.etiya.ecommercedemo4.core.util.results.DataResult;
 import com.etiya.ecommercedemo4.core.util.results.Result;
 import com.etiya.ecommercedemo4.core.util.results.SuccessDataResult;
@@ -13,6 +14,8 @@ import com.etiya.ecommercedemo4.core.util.results.SuccessResult;
 import com.etiya.ecommercedemo4.entities.concretes.Town;
 import com.etiya.ecommercedemo4.repository.ITownRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -25,12 +28,19 @@ public class TownManager implements ITownService {
     private ICityService cityService;
     private ModelMapperService modelMapperService;
 
+    private IMessagesService messagesService;
+
 
 
     @Override
     public DataResult<List<Town>> getAll() {
         List<Town> response = this.townRepository.findAll();
-        return new SuccessDataResult<List<Town>>(response , Messages.SuccessMessages.ListAll);
+        return new SuccessDataResult<List<Town>>(response ,messagesService.getMessage(Messages.SuccessMessages.ListAll));
+    }
+
+    @Override
+    public Page<Town> getAllWithPagination(Pageable pageable) {
+        return this.townRepository.findAll(pageable);
     }
 
     @Override
@@ -46,13 +56,13 @@ public class TownManager implements ITownService {
         town.setId(0);
         this.townRepository.save(town);
 
-        return new SuccessResult(Messages.SuccessMessages.Add);
+        return new SuccessResult(messagesService.getMessage(Messages.SuccessMessages.Add));
 
     }
 
     @Override
     public DataResult<Town> getById(int id) {
         Town response = this.townRepository.findById(id).orElseThrow();
-        return new SuccessDataResult<Town>(response,Messages.SuccessMessages.ListById);
+        return new SuccessDataResult<Town>(response,messagesService.getMessage(Messages.SuccessMessages.ListById));
     }
 }
