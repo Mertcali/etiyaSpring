@@ -9,11 +9,12 @@ import com.etiya.ecommercedemo4.entities.concretes.Invoice;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import javax.validation.Valid;
 import java.util.List;
 
 public interface IInvoiceService {
 
-    Result add(AddInvoiceRequest addInvoiceRequest);
+    Result add(@Valid AddInvoiceRequest addInvoiceRequest);
 
     DataResult<List<Invoice>> getAll();
 

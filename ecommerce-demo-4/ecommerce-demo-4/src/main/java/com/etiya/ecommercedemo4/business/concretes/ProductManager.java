@@ -27,24 +27,14 @@ import java.util.List;
 
 
 @Service
+@AllArgsConstructor
 public class ProductManager implements IProductService {
 
     private IProductRepository productRepository;
     private ICategoryService categoryService;
-    private IProductCategoriesService productCategoriesService;
     private ModelMapperService modelMapperService;
-
     private IMessagesService messagesService;
 
-    public ProductManager(IProductRepository productRepository,
-                          ICategoryService categoryService,
-                          @Lazy IProductCategoriesService productCategoriesService,
-                          ModelMapperService modelMapperService) {
-        this.productRepository = productRepository;
-        this.categoryService = categoryService;
-        this.productCategoriesService = productCategoriesService;
-        this.modelMapperService = modelMapperService;
-    }
 
     @Override
     public DataResult<List<Product>> getAll() {

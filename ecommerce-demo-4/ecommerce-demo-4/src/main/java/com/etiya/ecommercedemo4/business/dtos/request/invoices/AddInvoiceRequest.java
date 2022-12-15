@@ -1,9 +1,6 @@
 package com.etiya.ecommercedemo4.business.dtos.request.invoices;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.Size;
@@ -12,6 +9,7 @@ import javax.validation.constraints.Size;
 @NoArgsConstructor
 @Getter
 @Setter
+@Builder
 public class AddInvoiceRequest {
 
     @Size(min = 7,max = 7)
